@@ -35,7 +35,7 @@ public class RestauranteController {
             restaurantes = restauranteDAO.findAll().subList(0, Math.min(5, restauranteDAO.findAll().size()));
         }
         model.addAttribute("restaurantes", restaurantes);
-        log.info("Restaurantes encontrados: " + restaurantes);
+        logger.info("Restaurantes encontrados: " + restaurantes);
         return "buscarRestaurante";
     }
 }
