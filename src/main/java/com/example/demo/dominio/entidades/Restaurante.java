@@ -13,7 +13,7 @@ public class Restaurante{
     private String nombre;
     @Column
     private String cif;
-    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Direccion> direcciones;
     public Restaurante() {}
     // Constructor
@@ -51,7 +51,8 @@ public class Restaurante{
     public void setDirecciones(List<Direccion> direcciones) {
         this.direcciones = direcciones;
     }
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return String.format("Restaurante [id=%s, nombre=%s, cif=%s]", id, nombre, cif);
     }
 }
