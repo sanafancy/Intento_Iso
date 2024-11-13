@@ -22,6 +22,9 @@ public class Direccion {
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
     public Direccion() {
     }
 
@@ -89,6 +92,14 @@ public class Direccion {
 
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     // Metodo toString
