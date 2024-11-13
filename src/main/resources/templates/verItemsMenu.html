@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Items del Menú</title>
+</head>
+<body>
+<h1 th:text="'Items del Menú: ' + ${cartaMenu.nombre}">Items del Menú</h1>
+<ul>
+    <li th:each="itemMenu : ${itemsMenu}">
+        <span th:text="${itemMenu.nombre}">Nombre del Item</span> -
+        <span th:text="${itemMenu.precio}">Precio</span> -
+        <span th:text="${itemMenu.tipo}">Tipo</span>
+        <button type="button" onclick="sumarItem()">Sumar</button>
+    </li>
+</ul>
+
+<script>
+    function sumarItem() {
+        alert('Item sumado!');
+    }
+</script>
+</body>
+</html>
