@@ -11,9 +11,11 @@
         <span th:text="${itemMenu.nombre}">Nombre del Item</span> -
         <span th:text="${itemMenu.precio}">Precio</span> -
         <span th:text="${itemMenu.tipo}">Tipo</span>
+        <!--
         <button type="button" onclick="cambiarCantidad(${itemMenu.id}, -1)">-</button>
         <input type="number" id="cantidad-${itemMenu.id}" value="0" min="0" onchange="actualizarCantidad(${itemMenu.id})">
         <button type="button" onclick="cambiarCantidad(${itemMenu.id}, 1)">+</button>
+        -->
     </li>
 </ul>
 <button type="button" onclick="comprar()">Comprar</button>

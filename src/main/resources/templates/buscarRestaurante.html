@@ -6,13 +6,13 @@
 </head>
 <body>
 <h1>Buscar Restaurante</h1>
-<form action="#" th:action="@{/clientes/{clienteId}/restaurantes(clienteId=${clienteId})}" method="get">
+<form action="#" th:action="@{/restaurantes}" method="get">
   <input type="text" id="busqueda" name="busqueda" placeholder="Buscar Restaurante">
   <button type="submit">Buscar</button>
 </form>
 <ul>
   <li th:each="restaurante : ${restaurantes}">
-    <a th:href="@{/clientes/{clienteId}/restaurantes/{restauranteId}/pedido(clienteId=${clienteId}, restauranteId=${restaurante.id})}" th:text="${restaurante.nombre}">Nombre del Restaurante</a>
+    <a th:href="@{/restaurantes/{restauranteId}/pedido(restauranteId=${restaurante.id})}" th:text="${restaurante.nombre}">Nombre del Restaurante</a>
   </li>
 </ul>
 </body>
