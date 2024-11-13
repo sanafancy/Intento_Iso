@@ -19,7 +19,7 @@ public class RestauranteController {
     @Autowired
     private RestauranteDAO restauranteDAO;
 
-    @GetMapping("/restaurante")
+    @GetMapping("/restaurantes")
     //public String listarRestaurantes(@PathVariable Long clienteId, @RequestParam(required = false) String busqueda, Model model) {
     public String listarRestaurantes(@RequestParam(required = false)String busqueda, Model model){
         List<Restaurante> restaurantes;
