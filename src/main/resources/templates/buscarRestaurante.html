@@ -14,6 +14,7 @@
 <ul>
   <li th:each="restaurante : ${restaurantes}">
     <a th:href="@{/restaurantes/{restauranteId}/pedido(restauranteId=${restaurante.id})}" th:text="${restaurante.nombre}">Nombre del Restaurante</a>
+    <span th:each="direccion : ${restaurante.direcciones}" th:text="${direccion.calle + ', ' + direccion.numero + ', ' + direccion.municipio + ', ' + direccion.codigoPostal}">Dirección</span>
   </li>
 </ul>
 </body>
