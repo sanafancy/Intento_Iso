@@ -20,8 +20,7 @@ public class RestauranteController {
     private RestauranteDAO restauranteDAO;
 
     @GetMapping("/restaurantes")
-    //public String listarRestaurantes(@PathVariable Long clienteId, @RequestParam(required = false) String busqueda, Model model) {
-    public String listarRestaurantes(@RequestParam(required = false)String busqueda, Model model){
+    public String listarRestaurantes(@RequestParam(required = false) String busqueda, Model model) {
         List<Restaurante> restaurantes;
         if (busqueda != null && !busqueda.isEmpty()) {
             restaurantes = restauranteDAO.findByNombreContainingIgnoreCase(busqueda);
@@ -37,7 +36,6 @@ public class RestauranteController {
             restaurantes = restauranteDAO.findAll();
         }
         model.addAttribute("restaurantes", restaurantes);
-        //model.addAttribute("clienteId", clienteId);
         logger.info("Restaurantes encontrados: " + restaurantes);
         return "buscarRestaurante";
     }
@@ -48,7 +46,6 @@ public class RestauranteController {
         if (restaurante != null) {
             model.addAttribute("restaurante", restaurante);
             model.addAttribute("cartasMenu", restaurante.getCartasMenu());
-            //model.addAttribute("clienteId", clienteId);
             logger.info("Cartas de menú encontradas para el restaurante: " + restaurante.getNombre());
         }
         return "pedido";
