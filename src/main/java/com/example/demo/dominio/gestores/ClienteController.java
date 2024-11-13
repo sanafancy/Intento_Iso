@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
@@ -18,16 +18,21 @@ public class ClienteController {
     @Autowired
     private ClienteDAO clienteDAO;
 
-    @GetMapping("/buscarCliente")
-    public String buscarCliente(@RequestParam(required = false) String busqueda, Model model) {
-        List<Cliente> clientes;
-        if (busqueda != null && !busqueda.isEmpty()) {
-            clientes = clienteDAO.findByNombreContainingIgnoreCase(busqueda);
-        } else {
-            clientes = clienteDAO.findAll();
-        }
+    @GetMapping("/clientes")
+    public String listarClientes(Model model) {
+        List<Cliente> clientes = clienteDAO.findAll();
         model.addAttribute("clientes", clientes);
         logger.info("Clientes encontrados: " + clientes);
-        return "buscarCliente";
+        return "listarClientes";
+    }
+
+    @GetMapping("/clientes/{id}/restaurantes")
+    public String buscarRestaurantes(@PathVariable Long id, Model model) {
+        Cliente cliente = clienteDAO.findById(id).orElse(null);
+        if (cliente != null) {
+            model.addAttribute("cliente", cliente);
+            return "buscarRestaurante";
+        }
+        return "redirect:/clientes";
     }
 }

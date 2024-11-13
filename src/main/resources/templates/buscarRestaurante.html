@@ -6,15 +6,13 @@
 </head>
 <body>
 <h1>Buscar Restaurante</h1>
-<form action="#" th:action="@{/buscarRestaurante}" method="get">
-  <input type="text" id="busqueda" name="busqueda" placeholder="Nombre, Dirección, Código Postal o Municipio">
+<form action="#" th:action="@{/clientes/{clienteId}/restaurantes(clienteId=${clienteId})}" method="get">
+  <input type="text" id="busqueda" name="busqueda" placeholder="Buscar Restaurante">
   <button type="submit">Buscar</button>
 </form>
-<h2>Resultados:</h2>
 <ul>
   <li th:each="restaurante : ${restaurantes}">
-    <span th:text="${restaurante.nombre}">Nombre del Restaurante</span> -
-    <span th:each="direccion : ${restaurante.direcciones}" th:text="${direccion.calle + ', ' + direccion.numero + ', ' + direccion.municipio + ', ' + direccion.codigoPostal}">Dirección</span>
+    <a th:href="@{/clientes/{clienteId}/restaurantes/{restauranteId}/pedido(clienteId=${clienteId}, restauranteId=${restaurante.id})}" th:text="${restaurante.nombre}">Nombre del Restaurante</a>
   </li>
 </ul>
 </body>

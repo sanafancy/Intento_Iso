@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,8 @@ public class RestauranteController {
     @Autowired
     private RestauranteDAO restauranteDAO;
 
-    @GetMapping("/buscarRestaurante")
-    public String buscarRestaurante(@RequestParam(required = false) String busqueda, Model model) {
+    @GetMapping("/clientes/{clienteId}/restaurantes")
+    public String listarRestaurantes(@PathVariable Long clienteId, @RequestParam(required = false) String busqueda, Model model) {
         List<Restaurante> restaurantes;
         if (busqueda != null && !busqueda.isEmpty()) {
             restaurantes = restauranteDAO.findByNombreContainingIgnoreCase(busqueda);
@@ -32,10 +33,23 @@ public class RestauranteController {
                 // No es un código postal válido, ignorar
             }
         } else {
-            restaurantes = restauranteDAO.findAll().subList(0, Math.min(5, restauranteDAO.findAll().size()));
+            restaurantes = restauranteDAO.findAll();
         }
         model.addAttribute("restaurantes", restaurantes);
+        model.addAttribute("clienteId", clienteId);
         logger.info("Restaurantes encontrados: " + restaurantes);
         return "buscarRestaurante";
+    }
+
+    @GetMapping("/clientes/{clienteId}/restaurantes/{restauranteId}/pedido")
+    public String listarMenus(@PathVariable Long clienteId, @PathVariable Long restauranteId, Model model) {
+        Restaurante restaurante = restauranteDAO.findById(restauranteId).orElse(null);
+        if (restaurante != null) {
+            model.addAttribute("restaurante", restaurante);
+            model.addAttribute("cartasMenu", restaurante.getCartasMenu());
+            model.addAttribute("clienteId", clienteId);
+            logger.info("Cartas de menú encontradas para el restaurante: " + restaurante.getNombre());
+        }
+        return "pedido";
     }
 }
