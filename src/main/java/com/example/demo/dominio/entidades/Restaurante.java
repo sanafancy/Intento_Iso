@@ -15,6 +15,11 @@ public class Restaurante{
     private String cif;
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Direccion> direcciones;
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartaMenu> cartasMenu;
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> pedidos;
+
     public Restaurante() {}
     // Constructor
     public Restaurante(String nombre, String cif) {
@@ -51,6 +56,23 @@ public class Restaurante{
     public void setDirecciones(List<Direccion> direcciones) {
         this.direcciones = direcciones;
     }
+
+    public List<CartaMenu> getCartasMenu() {
+        return cartasMenu;
+    }
+
+    public void setCartasMenu(List<CartaMenu> cartasMenu) {
+        this.cartasMenu = cartasMenu;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
     @Override
     public String toString() {
         return String.format("Restaurante [id=%s, nombre=%s, cif=%s]", id, nombre, cif);

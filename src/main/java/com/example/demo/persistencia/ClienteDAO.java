@@ -7,5 +7,4 @@ import java.util.List;
 
 @Repository
 public interface ClienteDAO extends JpaRepository<Cliente, Long> {
-    List<Cliente> findByNombreContainingIgnoreCase(String nombre);
 }

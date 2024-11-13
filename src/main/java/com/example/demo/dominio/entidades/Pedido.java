@@ -19,6 +19,7 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
+    @ManyToMany
     @JoinTable(
             name = "pedido_item_menu",
             joinColumns = @JoinColumn(name = "pedido_id"),
