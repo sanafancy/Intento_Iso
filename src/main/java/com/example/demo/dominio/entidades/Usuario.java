@@ -1,41 +1,40 @@
 package com.example.demo.dominio.entidades;
 
 import jakarta.persistence.*;
-/*
+import java.util.List;
+
 @Entity
-//@Inheritance(strategy = InheritanceType.JOINED)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUsuario;
+    private Long idUsuario;
     @Column
     private String pass;
 
-    public Usuario(String pass) {
+    public Usuario(){}
+    public Usuario(Long idUsuario,String pass){
+        this.idUsuario=idUsuario;
         this.pass=pass;
     }
-
-    public String getIdUsuario() {
-         return idUsuario;
+    // Getters y Setters
+    public Long getIdUsuario() {
+        return idUsuario;
     }
-    public void setIdUsuario(String idUsuario) {
+
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
+
     public String getPass() {
         return pass;
     }
+
     public void setPass(String pass) {
         this.pass = pass;
     }
-
-    //otro metodo
-    public boolean autenticar(String password) {
-        return this.pass.equals(password);
-    }
-
     @Override
     public String toString() {
-        return String.format("Greeting [idUsuario=%s, password=%s]", idUsuario, pass);
+        return String.format("Cliente [idUsuario=%s, pass=%s]", idUsuario, pass);
     }
-}*/
+}
