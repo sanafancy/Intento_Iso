@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/estilos.css">
+  <meta charset="UTF-8">
+  <title>Buscar Restaurante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+<h1>Buscar Restaurante</h1>
+<form action="#" th:action="@{/buscarRestaurante}" method="get">
+  <input type="text" id="busqueda" name="busqueda" placeholder="Nombre, Dirección, Código Postal o Municipio">
+  <button type="submit">Buscar</button>
+</form>
+<h2>Resultados:</h2>
+<ul>
+  <li th:each="restaurante : ${restaurantes}">
+    <span th:text="${restaurante.nombre}">Nombre del Restaurante</span> -
+    <span th:each="direccion : ${restaurante.direcciones}" th:text="${direccion.calle + ', ' + direccion.numero + ', ' + direccion.municipio + ', ' + direccion.codigoPostal}">Dirección</span>
+  </li>
+</ul>
+</body>
+</html>
