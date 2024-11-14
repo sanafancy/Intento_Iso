@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedido</title>
+</head>
+<body>
+<h1 th:text="'Menús del Restaurante: ' + ${restaurante.nombre}">Menús del Restaurante</h1>
+<ul>
+  <li th:each="cartaMenu : ${cartasMenu}">
+    <a th:href="@{/menus/{id}(id=${cartaMenu.id})}" th:text="${cartaMenu.nombre}">Nombre del Menú</a>
+  </li>
+</ul>
+</body>
+</html>

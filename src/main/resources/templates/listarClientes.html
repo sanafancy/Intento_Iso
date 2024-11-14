@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Clientes</title>
+</head>
+<body>
+<h1>Listar Clientes</h1>
+<ul>
+    <li th:each="cliente : ${clientes}">
+        <a th:href="@{/clientes/{id}/restaurantes(id=${cliente.id})}" th:text="${cliente.nombre}">Nombre del Cliente</a>
+    </li>
+</ul>
+</body>
+</html>
