@@ -72,17 +72,29 @@ INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Raviolis', 
 INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Tiramisú', 4.00, 'Postre', 8);
 
 -- Direcciones para La Casa del Pollo
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) VALUES ('Calle del Pollo', 123, 'Local 1', 28001, 'Madrid', 1);
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) VALUES ('Avenida de la Granja', 45, '', 28002, 'Madrid', 1);
+INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
+VALUES ('Calle del Sauce', 110, 'Local 3', 28970, 'Humanes de Madrid', 1);
+
+INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
+VALUES ('Avenida de las Flores', 21, 'Frente al parque', 28971, 'Griñón', 1);
 
 -- Direcciones para El Rincón de Pepe
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) VALUES ('Calle de Pepe', 67, 'Bajo', 28003, 'Madrid', 2);
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) VALUES ('Plaza Mayor', 10, '1ºA', 28004, 'Madrid', 2);
+INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
+VALUES ('Calle Mayor', 5, '1ºB', 28013, 'Madrid', 2);
+
+INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
+VALUES ('Plaza de España', 2, '2ºD', 28750, 'San Sebastián de los Reyes', 2);
 
 -- Direcciones para La Marisquería
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) VALUES ('Calle del Mar', 89, '', 28005, 'Madrid', 3);
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) VALUES ('Avenida del Puerto', 12, '2ºB', 28006, 'Madrid', 3);
+INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
+VALUES ('Paseo del Mar', 75, '', 28850, 'Torrejón de Ardoz', 3);
+
+INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
+VALUES ('Calle del Puerto', 18, '3ºA', 28042, 'Madrid', 3);
 
 -- Direcciones para Pizzería Bella Italia
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) VALUES ('Calle de Italia', 34, '', 28007, 'Madrid', 4);
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) VALUES ('Avenida de Roma', 56, 'Local 2', 28008, 'Madrid', 4);
+INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
+VALUES ('Calle de Italia', 200, '', 28010, 'Madrid', 4);
+
+INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
+VALUES ('Avenida de Europa', 15, 'Local 5', 28224, 'Pozuelo de Alarcón', 4);
