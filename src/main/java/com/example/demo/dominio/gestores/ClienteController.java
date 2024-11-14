@@ -17,22 +17,4 @@ public class ClienteController {
 
     @Autowired
     private ClienteDAO clienteDAO;
-
-    @GetMapping("/clientes")
-    public String listarClientes(Model model) {
-        List<Cliente> clientes = clienteDAO.findAll();
-        model.addAttribute("clientes", clientes);
-        logger.info("Clientes encontrados: " + clientes);
-        return "listarClientes";
-    }
-
-    @GetMapping("/clientes/{id}/restaurantes")
-    public String buscarRestaurantes(@PathVariable Long id, Model model) {
-        Cliente cliente = clienteDAO.findById(id).orElse(null);
-        if (cliente != null) {
-            model.addAttribute("cliente", cliente);
-            return "buscarRestaurante";
-        }
-        return "redirect:/clientes";
-    }
 }
