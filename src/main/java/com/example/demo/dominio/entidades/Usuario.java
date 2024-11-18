@@ -13,8 +13,7 @@ public abstract class Usuario {
     private String pass;
 
     public Usuario(){}
-    public Usuario(Long idUsuario,String pass){
-        this.idUsuario=idUsuario;
+    public Usuario(String pass){
         this.pass=pass;
     }
     // Getters y Setters

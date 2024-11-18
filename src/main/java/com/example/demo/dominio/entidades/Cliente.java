@@ -4,16 +4,13 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Cliente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Cliente extends Usuario{
     @Column
     private String nombre;
     @Column
-    private String email;
+    private String apellidos;
     @Column
-    private String telefono;
+    private String dni;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos;
@@ -23,20 +20,14 @@ public class Cliente {
 
     public Cliente() {}
 
-    public Cliente(String nombre, String email, String telefono) {
+    public Cliente(String pass,String nombre, String apellidos, String dni) {
+        super (pass);
         this.nombre = nombre;
-        this.email = email;
-        this.telefono = telefono;
+        this.apellidos=apellidos;
+        this.dni=dni;
     }
 
     // Getters y Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -46,20 +37,20 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getEmail() {
-        return email;
+    public String getApellidos() {
+        return apellidos;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getDni() {
+        return dni;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public List<Pedido> getPedidos() {
@@ -80,6 +71,6 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return String.format("Cliente [id=%s, nombre=%s, email=%s, telefono=%s]", id, nombre, email, telefono);
+        return String.format("Cliente [idUsuario=%s, pass=%s, nombre=%s, apellidos=%s, dni=%s]", getIdUsuario(), getPass(), nombre, apellidos, dni);
     }
 }
