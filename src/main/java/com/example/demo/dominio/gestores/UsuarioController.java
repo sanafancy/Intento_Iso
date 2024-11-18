@@ -21,6 +21,10 @@ public class UsuarioController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping("/registro")
+    public String mostrarPaginaRegistro() {
+        return "registro";
+    }
     @GetMapping("/login")
     public String mostrarFormularioLogin(Model model) {
         model.addAttribute("usuario", new Usuario());
