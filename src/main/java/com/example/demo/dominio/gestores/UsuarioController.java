@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UsuarioController {
@@ -18,27 +19,21 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioDAO usuarioDAO;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/registro")
-    public String mostrarPaginaRegistro() {
-        return "registro";
-    }
     @GetMapping("/login")
-    public String mostrarFormularioLogin(Model model) {
+    public String loginForm(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "login";
     }
-
     @PostMapping("/login")
-    public String autenticarUsuario(@RequestParam String idUsuario, @RequestParam String pass, Model model) {
-        Usuario usuario = usuarioDAO.findById(Long.parseLong(idUsuario)).orElse(null);
-        if (usuario != null && passwordEncoder.matches(pass, usuario.getPass())) {
-            model.addAttribute("usuario", usuario);
-            return "bienvenido";
+    public String loginSubmit(@ModelAttribute Usuario usuario, Model model) {
+        Optional<Usuario> usuarioOpt = usuarioDAO.findById(usuario.getIdUsuario());
+        if (usuarioOpt.isPresent() && usuarioOpt.get().getPass().equals(usuario.getPass())) {
+            model.addAttribute("usuario", usuarioOpt.get());
+            logger.info("Usuario logueado: " + usuarioOpt.get());
+            return "home"; // Redirigir a la página principal después del login
         } else {
-            model.addAttribute("error", "Credenciales incorrectas");
+            model.addAttribute("error", "ID de usuario o contraseña incorrectos");
             return "login";
         }
     }

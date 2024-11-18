@@ -17,21 +17,19 @@ public class RestauranteController {
 
     @Autowired
     private RestauranteDAO restauranteDAO;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registro/restaurante")
-    public String mostrarFormularioRegistroRestaurante(Model model) {
+    public String registroRestauranteForm(Model model) {
         model.addAttribute("restaurante", new Restaurante());
         return "registroRestaurante";
     }
 
     @PostMapping("/registro/restaurante")
-    public String registrarRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
-        restaurante.setPass(passwordEncoder.encode(restaurante.getPass()));
-        restauranteDAO.save(restaurante);
-        model.addAttribute("mensaje", "Restaurante registrado con éxito");
-        return "login";
+    public String registroRestauranteSubmit(@ModelAttribute Restaurante restaurante, Model model) {
+        Restaurante savedRestaurante = restauranteDAO.save(restaurante);
+        model.addAttribute("restaurante", savedRestaurante);
+        logger.info("Restaurante registrado: " + savedRestaurante);
+        return "resultadoRestaurante";
     }
 
     @GetMapping("/restaurantes")

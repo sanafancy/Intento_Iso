@@ -19,20 +19,17 @@ public class RepartidorController {
 
     @Autowired
     private RepartidorDAO repartidorDAO;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registro/repartidor")
-    public String mostrarFormularioRegistroRepartidor(Model model) {
+    public String registroRepartidorForm(Model model) {
         model.addAttribute("repartidor", new Repartidor());
         return "registroRepartidor";
     }
-
     @PostMapping("/registro/repartidor")
-    public String registrarRepartidor(@ModelAttribute Repartidor repartidor, Model model) {
-        repartidor.setPass(passwordEncoder.encode(repartidor.getPass()));
-        repartidorDAO.save(repartidor);
-        model.addAttribute("mensaje", "Repartidor registrado con éxito");
-        return "login";
+    public String registroRepartidorSubmit(@ModelAttribute Repartidor repartidor, Model model) {
+        Repartidor savedRepartidor = repartidorDAO.save(repartidor);
+        model.addAttribute("repartidor", savedRepartidor);
+        logger.info("Repartidor registrado: " + savedRepartidor);
+        return "resultadoRepartidor";
     }
 }

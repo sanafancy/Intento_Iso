@@ -34,6 +34,6 @@ public class Usuario {
     }
     @Override
     public String toString() {
-        return String.format("Cliente [idUsuario=%s, pass=%s]", idUsuario, pass);
+        return String.format("Usuario [idUsuario=%s, pass=%s]", idUsuario, pass);
     }
 }

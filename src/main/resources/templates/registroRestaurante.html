@@ -1,19 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
   <title>Registro Restaurante</title>
 </head>
 <body>
-<h1>Registro de Restaurante</h1>
-<form th:action="@{/registro/restaurante}" th:object="${restaurante}" method="post">
+<h1>Registro Restaurante</h1>
+<form action="/registro/restaurante" method="post">
   <label for="nombre">Nombre:</label>
-  <input type="text" id="nombre" th:field="*{nombre}" />
+  <input type="text" id="nombre" name="nombre" required>
+  <br>
   <label for="cif">CIF:</label>
-  <input type="text" id="cif" th:field="*{cif}" />
+  <input type="text" id="cif" name="cif" required>
+  <br>
   <label for="pass">Contraseña:</label>
-  <input type="password" id="pass" th:field="*{pass}" />
+  <input type="password" id="pass" name="pass" required>
+  <br>
   <button type="submit">Registrar</button>
 </form>
-<p th:text="${mensaje}"></p>
 </body>
 </html>

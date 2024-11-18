@@ -22,19 +22,17 @@ public class ClienteController {
 
     @Autowired
     private ClienteDAO clienteDAO;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
     @GetMapping("/registro/cliente")
-    public String mostrarFormularioRegistroCliente(Model model) {
+    public String registroClienteForm(Model model) {
         model.addAttribute("cliente", new Cliente());
         return "registroCliente";
     }
-
     @PostMapping("/registro/cliente")
-    public String registrarCliente(@ModelAttribute Cliente cliente, Model model) {
-        cliente.setPass(passwordEncoder.encode(cliente.getPass()));
-        clienteDAO.save(cliente);
-        model.addAttribute("mensaje", "Cliente registrado con éxito");
-        return "login";
+    public String registroClienteSubmit(@ModelAttribute Cliente cliente, Model model) {
+        Cliente savedCliente = clienteDAO.save(cliente);
+        model.addAttribute("cliente", savedCliente);
+        logger.info("Cliente registrado: " + savedCliente);
+        return "resultadoCliente";
     }
 }
