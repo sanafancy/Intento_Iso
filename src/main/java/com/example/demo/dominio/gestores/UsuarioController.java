@@ -19,7 +19,7 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioDAO usuarioDAO;
-/*
+
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("usuario", new Usuario());
@@ -37,5 +37,5 @@ public class UsuarioController {
             model.addAttribute("error", "ID de usuario o contraseña incorrectos");
             return "login";
         }
-    }*/
+    }
 }
