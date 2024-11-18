@@ -38,4 +38,9 @@ public class UsuarioController {
             return "login";
         }
     }
+
+    @GetMapping("/registro")
+    public String registroForm(Model model) {
+        return "registro";
+    }
 }
