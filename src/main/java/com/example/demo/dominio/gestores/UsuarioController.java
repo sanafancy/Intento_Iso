@@ -21,20 +21,6 @@ public class UsuarioController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/registro")
-    public String mostrarFormularioRegistro(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "registro";
-    }
-
-    @PostMapping("/registro")
-    public String registrarUsuario(@ModelAttribute Usuario usuario, Model model) {
-        usuario.setPass(passwordEncoder.encode(usuario.getPass()));
-        usuarioDAO.save(usuario);
-        model.addAttribute("mensaje", "Usuario registrado con éxito");
-        return "login";
-    }
-
     @GetMapping("/login")
     public String mostrarFormularioLogin(Model model) {
         model.addAttribute("usuario", new Usuario());
