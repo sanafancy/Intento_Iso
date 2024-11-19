@@ -1,3 +1,13 @@
+# Ramas que hay que hacer
+* Feature_Asignar_Repartidor
+* Feature_Modificar_Menu (esto esta lo de modificar menú y modificar carta y dar de alta el menú y la carta)
+* Feature_Marca_Favorito
+* Feature_Realizar _Pago (lo que nos falta de hace pedido hasta q se haga el pago)
+* Feature_Realizar_Entrega(desde la notificación hasta que entregue el pedido)
+# Detalles a completar
+* Poner lo de buscar restaurante como índice
+* Poner las restricciones que dijo Naomi
+# Código sql
 INSERT INTO cliente (nombre, email, telefono) VALUES ('Juan Pérez', 'juan.perez@example.com', '123456789');
 INSERT INTO cliente (nombre, email, telefono) VALUES ('María García', 'maria.garcia@example.com', '987654321');
 INSERT INTO cliente (nombre, email, telefono) VALUES ('Carlos López', 'carlos.lopez@example.com', '456789123');
