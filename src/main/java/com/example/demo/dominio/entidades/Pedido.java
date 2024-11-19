@@ -19,6 +19,9 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
+    @ManyToOne
+    @JoinColumn(name = "repartidor_id")
+    private Repartidor repartidor;
     @ManyToMany
     @JoinTable(
             name = "pedido_item_menu",
@@ -26,18 +29,16 @@ public class Pedido {
             inverseJoinColumns = @JoinColumn(name = "item_menu_id")
     )
     private List<ItemMenu> items;
-    /*@ManyToOne
-    @JoinColumn(name = "direccion_id")
-    private Direccion direccion;*/
 
-    public Pedido(){}
-    public Pedido(LocalDateTime fechaHora, String estado, Cliente cliente, Restaurante restaurante, List<ItemMenu> items/*,Direccion direccion*/){
+    public Pedido() {}
+
+    public Pedido(LocalDateTime fechaHora, String estado, Cliente cliente, Restaurante restaurante, Repartidor repartidor, List<ItemMenu> items) {
         this.fechaHora = fechaHora;
         this.estado = estado;
         this.cliente = cliente;
         this.restaurante = restaurante;
+        this.repartidor = repartidor;
         this.items = items;
-        //this.direccion = direccion;
     }
 
     public Long getId() {
@@ -80,6 +81,14 @@ public class Pedido {
         this.restaurante = restaurante;
     }
 
+    public Repartidor getRepartidor() {
+        return repartidor;
+    }
+
+    public void setRepartidor(Repartidor repartidor) {
+        this.repartidor = repartidor;
+    }
+
     public List<ItemMenu> getItems() {
         return items;
     }
@@ -87,16 +96,10 @@ public class Pedido {
     public void setItems(List<ItemMenu> items) {
         this.items = items;
     }
-    /*public Direccion getDireccion() {
-        return direccion;
-    }
 
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
-    }*/
-//poner , direccion=%s
     @Override
     public String toString() {
-        return String.format("Pedido [id=%s, fechaHora=%s, estado=%s, cliente=%s, restaurante=%s]", id, fechaHora, estado, cliente, restaurante);
+        return String.format("Pedido [id=%s, fechaHora=%s, estado=%s, cliente=%s, restaurante=%s, repartidor=%s]",
+                id, fechaHora, estado, cliente, restaurante, repartidor);
     }
 }

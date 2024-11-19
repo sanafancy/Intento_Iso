@@ -22,13 +22,20 @@ public class PedidoController {
     public String buscarPedido(@RequestParam(required = false) String busqueda, Model model) {
         List<Pedido> pedidos;
         if (busqueda != null && !busqueda.isEmpty()) {
-            // Implementar lógica de búsqueda según los criterios necesarios
-            pedidos = pedidoDAO.findAll(); // Placeholder
+            // Implementar lógica de búsqueda que considere también al repartidor si es necesario
+            pedidos = pedidoDAO.findAll(); // Placeholder para lógica de búsqueda específica
         } else {
             pedidos = pedidoDAO.findAll();
         }
         model.addAttribute("pedidos", pedidos);
-        logger.info("Pedidos encontrados: " + pedidos);
+
+        // Log adicional para mostrar repartidores asociados a cada pedido
+        for (Pedido pedido : pedidos) {
+            logger.info(String.format("Pedido ID: %d, Repartidor: %s",
+                    pedido.getId(),
+                    pedido.getRepartidor() != null ? pedido.getRepartidor().getNombre() : "No asignado"));
+        }
+
         return "buscarPedido";
     }
 }
