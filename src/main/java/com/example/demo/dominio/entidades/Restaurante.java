@@ -5,10 +5,7 @@ import java.util.List;
 
 // Clase Restaurante mas tarde poner que se extiende del Usuario
 @Entity
-public class Restaurante{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Restaurante extends Usuario{
     @Column
     private String nombre;
     @Column
@@ -22,18 +19,13 @@ public class Restaurante{
 
     public Restaurante() {}
     // Constructor
-    public Restaurante(String nombre, String cif) {
+    public Restaurante(String pass,String  nombre, String cif) {
+        super(pass);
         this.nombre = nombre;
         this.cif = cif;
     }
 
     // Getters y Setters
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
     public String getNombre() {
         return nombre;
     }
@@ -72,9 +64,9 @@ public class Restaurante{
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
-
     @Override
     public String toString() {
-        return String.format("Restaurante [id=%s, nombre=%s, cif=%s]", id, nombre, cif);
+        return String.format("Restaurante [idUsuario=%s, pass=%s, nombre=%s, cif=%s]", getIdUsuario(), getPass(), nombre, cif);
     }
+
 }

@@ -6,18 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 @Controller
 public class RestauranteController {
-    private static final Logger logger = LoggerFactory.getLogger(RestauranteController.class);
+    private static final Logger log = LoggerFactory.getLogger(RestauranteController.class);
 
     @Autowired
     private RestauranteDAO restauranteDAO;
+
+    @GetMapping("/registro/restaurante")
+    public String registroRestauranteForm(Model model) {
+        model.addAttribute("restaurante", new Restaurante());
+        return "registroRestaurante";
+    }
+
+    @PostMapping("/registro/restaurante")
+    public String registroRestauranteSubmit(@ModelAttribute Restaurante restaurante, Model model) {
+        Restaurante savedRestaurante = restauranteDAO.save(restaurante);
+        model.addAttribute("restaurante", savedRestaurante);
+        log.info("Restaurante registrado: " + savedRestaurante);
+        return "resultadoRestaurante";
+    }
 
     @GetMapping("/restaurantes")
     public String listarRestaurantes(@RequestParam(required = false) String busqueda, Model model) {
@@ -36,7 +53,7 @@ public class RestauranteController {
             restaurantes = restauranteDAO.findAll();
         }
         model.addAttribute("restaurantes", restaurantes);
-        logger.info("Restaurantes encontrados: " + restaurantes);
+        log.info("Restaurantes encontrados: " + restaurantes);
         return "buscarRestaurante";
     }
 
@@ -46,7 +63,7 @@ public class RestauranteController {
         if (restaurante != null) {
             model.addAttribute("restaurante", restaurante);
             model.addAttribute("cartasMenu", restaurante.getCartasMenu());
-            logger.info("Cartas de menú encontradas para el restaurante: " + restaurante.getNombre());
+            log.info("Cartas de menú encontradas para el restaurante: " + restaurante.getNombre());
         }
         return "pedido";
     }

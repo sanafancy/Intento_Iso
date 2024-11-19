@@ -6,33 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
 
 @Controller
 public class ClienteController {
-    private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
+    private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
 
     @Autowired
     private ClienteDAO clienteDAO;
 
-    @GetMapping("/clientes")
-    public String listarClientes(Model model) {
-        List<Cliente> clientes = clienteDAO.findAll();
-        model.addAttribute("clientes", clientes);
-        logger.info("Clientes encontrados: " + clientes);
-        return "listarClientes";
+    @GetMapping("/registro/cliente")
+    public String registroClienteForm(Model model) {
+        model.addAttribute("cliente", new Cliente());
+        return "registroCliente";
     }
 
-    @GetMapping("/clientes/{id}/restaurantes")
-    public String buscarRestaurantes(@PathVariable Long id, Model model) {
-        Cliente cliente = clienteDAO.findById(id).orElse(null);
-        if (cliente != null) {
-            model.addAttribute("cliente", cliente);
-            return "buscarRestaurante";
-        }
-        return "redirect:/clientes";
+    @PostMapping("/registro/cliente")
+    public String registroClienteSubmit(@ModelAttribute Cliente cliente, Model model) {
+        Cliente savedCliente = clienteDAO.save(cliente);
+        model.addAttribute("cliente", savedCliente);
+        log.info("Cliente registrado: " + savedCliente);
+        return "resultadoCliente";
     }
 }
