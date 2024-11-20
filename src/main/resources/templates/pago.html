@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realizar Pago</title>
+</head>
+<body>
+<h1>Realizar Pago</h1>
+<form action="/realizarPago" method="post">
+
+  <label for="metodoPago">Método de Pago:</label>
+  <select id="metodoPago" name="metodoPago" required>
+    <option value="PAYPAL">PayPal</option>
+    <option value="CREDIT_CARD">Tarjeta de Crédito</option>
+  </select><br><br>
+
+  <button type="submit">Realizar Pago</button>
+</form>
+
+<div>
+  <h2>Resultado</h2>
+  <p th:text="${mensaje}"></p>
+</div>
+</body>
+</html>

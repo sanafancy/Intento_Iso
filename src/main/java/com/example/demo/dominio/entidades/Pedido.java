@@ -26,6 +26,9 @@ public class Pedido {
             inverseJoinColumns = @JoinColumn(name = "item_menu_id")
     )
     private List<ItemMenu> items;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pago", referencedColumnName = "idTransaccion")
+    private Pago pago;
     /*@ManyToOne
     @JoinColumn(name = "direccion_id")
     private Direccion direccion;*/
