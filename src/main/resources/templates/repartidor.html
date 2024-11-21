@@ -5,13 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Repartidores</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <h1 class="mt-5">Gestión de Repartidores</h1>
 
-    <!-- Formulario para registrar un repartidor -->
-    <div class="mt-4">
+    <!-- Menú de navegación -->
+    <nav class="mt-4">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" onclick="showSection('registro')">Registrar Repartidor</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('eliminarRepartidor')">Dar de Baja Repartidor</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('marcarRecogido')">Marcar Pedido como Recogido</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('marcarEntregado')">Marcar Servicio como Entregado</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Sección de Registro de Repartidor -->
+    <div id="registro" class="mt-4">
         <h2>Registrar Repartidor</h2>
         <form action="/repartidor/registrarRepartidor" method="POST">
             <div class="form-group">
@@ -26,27 +49,65 @@
                 <label for="nif">NIF</label>
                 <input type="text" class="form-control" id="nif" name="nif" required>
             </div>
+            <div class="form-group">
+                <label for="zonas">Zonas (códigos postales separados por comas)</label>
+                <input type="text" class="form-control" id="zonas" name="zonas" required>
+            </div>
             <button type="submit" class="btn btn-primary">Registrar Repartidor</button>
         </form>
     </div>
 
-    <!-- Enlaces a otras funcionalidades -->
-    <div class="mt-5">
-        <h2>Opciones</h2>
-        <ul>
-            <!-- Enlaces de las opciones -->
-            <li><a href="/repartidor/marcarPedidoRecogido" class="btn btn-link">Marcar Pedido Recogido</a></li>
-            <li><a href="/repartidor/marcarServicioEntregado" class="btn btn-link">Marcar Servicio Entregado</a></li>
-            <li><a href="/repartidor/verRepartidores" class="btn btn-link">Ver Todos los Repartidores Registrados</a></li>
-        </ul>
+    <!-- Sección de Eliminar Repartidor -->
+    <div id="eliminarRepartidor" class="mt-4 hidden">
+        <h2>Dar de Baja Repartidor</h2>
+        <form action="/repartidor/eliminarRepartidor" method="POST">
+            <div class="form-group">
+                <label for="idRepartidor">ID del Repartidor</label>
+                <input type="text" class="form-control" id="idRepartidor" name="id" required>
+            </div>
+            <button type="submit" class="btn btn-danger">Eliminar Repartidor</button>
+        </form>
     </div>
 
+    <!-- Sección de Marcar Pedido como Recogido -->
+    <div id="marcarRecogido" class="mt-4 hidden">
+        <h2>Marcar Pedido como Recogido</h2>
+        <form action="/repartidor/marcarPedidoRecogido" method="POST">
+            <div class="form-group">
+                <label for="servicioIdRecogido">ID del Servicio</label>
+                <input type="text" class="form-control" id="servicioIdRecogido" name="servicioId" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Marcar como Recogido</button>
+        </form>
+    </div>
+
+    <!-- Sección de Marcar Servicio como Entregado -->
+    <div id="marcarEntregado" class="mt-4 hidden">
+        <h2>Marcar Servicio como Entregado</h2>
+        <form action="/repartidor/marcarServicioEntregado" method="POST">
+            <div class="form-group">
+                <label for="servicioIdEntregado">ID del Servicio</label>
+                <input type="text" class="form-control" id="servicioIdEntregado" name="servicioId" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Marcar como Entregado</button>
+        </form>
+    </div>
 </div>
 
-<!-- Agregar el script de Bootstrap (si se necesita para funcionalidades como el botón de Collapse) -->
+<script>
+    function showSection(sectionId) {
+        // Oculta todas las secciones
+        document.querySelectorAll('div[id]').forEach(section => section.classList.add('hidden'));
+        // Muestra la sección seleccionada
+        document.getElementById(sectionId).classList.remove('hidden');
+        // Cambia la pestaña activa
+        document.querySelectorAll('.nav-link').forEach(tab => tab.classList.remove('active'));
+        document.querySelector(`.nav-link[href="#"][onclick="showSection('${sectionId}')"]`).classList.add('active');
+    }
+</script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-

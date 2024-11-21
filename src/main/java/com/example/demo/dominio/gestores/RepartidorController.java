@@ -82,16 +82,6 @@ public class RepartidorController {
     }
 
     /**
-     * Ruta para ver todos los repartidores registrados.
-     */
-    @GetMapping("/verRepartidores")
-    public String verRepartidores(Model model) {
-        List<Repartidor> repartidores = repartidorDAO.findAll();
-        model.addAttribute("repartidores", repartidores);
-        return "verRepartidores";
-    }
-
-    /**
      * Ruta para ver los detalles de un servicio de entrega específico.
      */
     @GetMapping("/verServicioEntrega/{servicioId}")
@@ -102,4 +92,14 @@ public class RepartidorController {
         model.addAttribute("servicio", servicio);
         return "detalleServicioEntrega";
     }
+
+    @PostMapping("/eliminarRepartidor")
+    @ResponseBody
+    public String eliminarRepartidor(@RequestParam Long id) {
+        Repartidor repartidor = repartidorDAO.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No se encontró el repartidor con ID: " + id));
+        repartidorDAO.delete(repartidor);
+        return "Repartidor con ID " + id + " eliminado correctamente.";
+    }
+
 }
