@@ -8,25 +8,31 @@ public class Repartidor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
+    @Column(nullable = false)
     private String nombre;
-    @Column
+
+    @Column(nullable = false)
     private String apellidos;
-    @Column
+
+    @Column(nullable = false, unique = true)
     private String nif;
-    @Column
-    private int eficiencia;
 
-    @OneToMany(mappedBy = "repartidor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Pedido> pedidos;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "repartidor_zonas", joinColumns = @JoinColumn(name = "repartidor_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "codigo_postal")
+    private List<CodigoPostal> zonas;
 
+    // Constructor vacío
     public Repartidor() {}
 
-    public Repartidor(String nombre, String apellidos, String nif, int eficiencia) {
+    // Constructor completo
+    public Repartidor(String nombre, String apellidos, String nif, List<CodigoPostal> zonas) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.nif = nif;
-        this.eficiencia = eficiencia;
+        this.zonas = zonas;
     }
 
     // Getters y Setters
@@ -62,24 +68,16 @@ public class Repartidor {
         this.nif = nif;
     }
 
-    public int getEficiencia() {
-        return eficiencia;
+    public List<CodigoPostal> getZonas() {
+        return zonas;
     }
 
-    public void setEficiencia(int eficiencia) {
-        this.eficiencia = eficiencia;
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public void setZonas(List<CodigoPostal> zonas) {
+        this.zonas = zonas;
     }
 
     @Override
     public String toString() {
-        return String.format("Repartidor [id=%s, nombre=%s, apellidos=%s, nif=%s, eficiencia=%d]", id, nombre, apellidos, nif, eficiencia);
+        return String.format("Repartidor [id=%s, nombre=%s, apellidos=%s, nif=%s, zonas=%s]", id, nombre, apellidos, nif, zonas);
     }
 }

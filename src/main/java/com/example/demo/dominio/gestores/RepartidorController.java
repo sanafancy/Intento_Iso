@@ -1,46 +1,105 @@
 package com.example.demo.dominio.gestores;
 
-import com.example.demo.dominio.entidades.Repartidor;
-import com.example.demo.persistencia.RepartidorDAO;
+import com.example.demo.dominio.entidades.*;
+import com.example.demo.persistencia.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@RequestMapping("/repartidor")
 public class RepartidorController {
-    private static final Logger logger = LoggerFactory.getLogger(RepartidorController.class);
 
     @Autowired
     private RepartidorDAO repartidorDAO;
 
-    @GetMapping("/listarRepartidores")
-    public String listarRepartidores(Model model) {
-        List<Repartidor> repartidores = repartidorDAO.findAll();
-        model.addAttribute("repartidores", repartidores);
-        logger.info("Repartidores listados: " + repartidores);
-        return "listarRepartidores";
+    @Autowired
+    private ServicioEntregaDAO servicioEntregaDAO;
+
+    @Autowired
+    private PedidoDAO pedidoDAO;
+
+    /**
+     * Ruta para registrar un repartidor.
+     */
+    @PostMapping("/registrarRepartidor")
+    @ResponseBody
+    public String registrarRepartidor(@RequestParam String nombre,
+                                      @RequestParam String apellidos,
+                                      @RequestParam String nif,
+                                      @RequestParam List<CodigoPostal> zonas) {
+        Repartidor repartidor = new Repartidor();
+        repartidor.setNombre(nombre);
+        repartidor.setApellidos(apellidos);
+        repartidor.setNif(nif);
+        repartidor.setZonas(zonas);
+
+        repartidorDAO.save(repartidor);
+
+        return "Repartidor registrado correctamente con nombre: " + nombre + " " + apellidos;
     }
 
-    @GetMapping("/buscarRepartidor")
-    public String buscarRepartidor(@RequestParam(required = false) String nif, Model model) {
-        if (nif != null && !nif.isEmpty()) {
-            Repartidor repartidor = repartidorDAO.findByNif(nif);
-            if (repartidor != null) {
-                model.addAttribute("repartidor", repartidor);
-                logger.info("Repartidor encontrado: " + repartidor);
-            } else {
-                logger.warn("No se encontró repartidor con NIF: " + nif);
-                model.addAttribute("mensaje", "No se encontró repartidor con el NIF proporcionado");
-            }
-        } else {
-            model.addAttribute("mensaje", "Debe proporcionar un NIF para la búsqueda");
-            logger.warn("Búsqueda de repartidor sin NIF proporcionado");
-        }
-        return "buscarRepartidor";
+    /**
+     * Ruta para marcar un pedido como recogido.
+     */
+    @PostMapping("/marcarPedidoRecogido")
+    @ResponseBody
+    public String marcarPedidoRecogido(@RequestParam Long servicioId) {
+        ServicioEntrega servicio = servicioEntregaDAO.findById(servicioId)
+                .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con ID: " + servicioId));
+
+        Pedido pedido = servicio.getPedido();
+        pedido.setEstado("Recogido");
+        pedidoDAO.save(pedido);
+
+        servicio.setFechaRecepcion(LocalDateTime.now());
+        servicioEntregaDAO.save(servicio);
+
+        return "Pedido marcado como recogido y actualizado correctamente.";
+    }
+
+    /**
+     * Ruta para marcar un servicio de entrega como entregado.
+     */
+    @PostMapping("/marcarServicioEntregado")
+    @ResponseBody
+    public String marcarServicioEntregado(@RequestParam Long servicioId) {
+        ServicioEntrega servicio = servicioEntregaDAO.findById(servicioId)
+                .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con ID: " + servicioId));
+
+        Pedido pedido = servicio.getPedido();
+        pedido.setEstado("Entregado");
+        pedidoDAO.save(pedido);
+
+        servicio.setFechaEntrega(LocalDateTime.now());
+        servicioEntregaDAO.save(servicio);
+
+        return "Servicio marcado como entregado y actualizado correctamente.";
+    }
+
+    /**
+     * Ruta para ver todos los repartidores registrados.
+     */
+    @GetMapping("/verRepartidores")
+    public String verRepartidores(Model model) {
+        List<Repartidor> repartidores = repartidorDAO.findAll();
+        model.addAttribute("repartidores", repartidores);
+        return "verRepartidores";
+    }
+
+    /**
+     * Ruta para ver los detalles de un servicio de entrega específico.
+     */
+    @GetMapping("/verServicioEntrega/{servicioId}")
+    public String verServicioEntrega(@PathVariable Long servicioId, Model model) {
+        ServicioEntrega servicio = servicioEntregaDAO.findById(servicioId)
+                .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con ID: " + servicioId));
+
+        model.addAttribute("servicio", servicio);
+        return "detalleServicioEntrega";
     }
 }
