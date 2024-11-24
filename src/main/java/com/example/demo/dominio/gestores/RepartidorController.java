@@ -24,7 +24,7 @@ public class RepartidorController {
     private PedidoDAO pedidoDAO;
 
     /**
-     * Ruta para registrar un repartidor.
+     * Registrar un nuevo repartidor.
      */
     @PostMapping("/registrarRepartidor")
     @ResponseBody
@@ -44,45 +44,54 @@ public class RepartidorController {
     }
 
     /**
-     * Ruta para marcar un pedido como recogido.
+     * Notificar al repartidor sobre un servicio de entrega.
      */
-    @PostMapping("/marcarPedidoRecogido")
+    @PostMapping("/notificarRepartidor")
     @ResponseBody
-    public String marcarPedidoRecogido(@RequestParam Long servicioId) {
+    public String notificarRepartidor(@RequestParam Long servicioId) {
         ServicioEntrega servicio = servicioEntregaDAO.findById(servicioId)
                 .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con ID: " + servicioId));
 
-        Pedido pedido = servicio.getPedido();
-        pedido.setEstado("Recogido");
-        pedidoDAO.save(pedido);
+        servicio.setEstado("Notificado");
+        servicioEntregaDAO.save(servicio);
 
+        return "Repartidor notificado para el servicio con ID: " + servicioId;
+    }
+
+    /**
+     * Registrar la recogida de un pedido por parte del repartidor.
+     */
+    @PostMapping("/registrarRecogida")
+    @ResponseBody
+    public String registrarRecogida(@RequestParam Long servicioId) {
+        ServicioEntrega servicio = servicioEntregaDAO.findById(servicioId)
+                .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con ID: " + servicioId));
+
+        servicio.setEstado("Recogido");
         servicio.setFechaRecepcion(LocalDateTime.now());
         servicioEntregaDAO.save(servicio);
 
-        return "Pedido marcado como recogido y actualizado correctamente.";
+        return "Pedido recogido para el servicio con ID: " + servicioId;
     }
 
     /**
-     * Ruta para marcar un servicio de entrega como entregado.
+     * Registrar la entrega de un pedido por parte del repartidor.
      */
-    @PostMapping("/marcarServicioEntregado")
+    @PostMapping("/registrarEntrega")
     @ResponseBody
-    public String marcarServicioEntregado(@RequestParam Long servicioId) {
+    public String registrarEntrega(@RequestParam Long servicioId) {
         ServicioEntrega servicio = servicioEntregaDAO.findById(servicioId)
                 .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con ID: " + servicioId));
 
-        Pedido pedido = servicio.getPedido();
-        pedido.setEstado("Entregado");
-        pedidoDAO.save(pedido);
-
+        servicio.setEstado("Entregado");
         servicio.setFechaEntrega(LocalDateTime.now());
         servicioEntregaDAO.save(servicio);
 
-        return "Servicio marcado como entregado y actualizado correctamente.";
+        return "Pedido entregado para el servicio con ID: " + servicioId;
     }
 
     /**
-     * Ruta para ver los detalles de un servicio de entrega específico.
+     * Ver detalles de un servicio de entrega.
      */
     @GetMapping("/verServicioEntrega/{servicioId}")
     public String verServicioEntrega(@PathVariable Long servicioId, Model model) {
@@ -93,6 +102,9 @@ public class RepartidorController {
         return "detalleServicioEntrega";
     }
 
+    /**
+     * Eliminar un repartidor.
+     */
     @PostMapping("/eliminarRepartidor")
     @ResponseBody
     public String eliminarRepartidor(@RequestParam Long id) {
@@ -101,5 +113,4 @@ public class RepartidorController {
         repartidorDAO.delete(repartidor);
         return "Repartidor con ID " + id + " eliminado correctamente.";
     }
-
 }

@@ -1,15 +1,115 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Pedido</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Pedidos</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-<h1 th:text="'Menús del Restaurante: ' + ${restaurante.nombre}">Menús del Restaurante</h1>
-<ul>
-  <li th:each="cartaMenu : ${cartasMenu}">
-    <a th:href="@{/menus/{id}(id=${cartaMenu.id})}" th:text="${cartaMenu.nombre}">Nombre del Menú</a>
-  </li>
-</ul>
+<div class="container">
+  <h1 class="mt-5">Gestión de Pedidos</h1>
+
+  <!-- Menú de navegación -->
+  <nav class="mt-4">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a href="#" class="nav-link active" onclick="showSection('verPedidos')">Ver Pedidos</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" onclick="showSection('buscarPedido')">Buscar Pedido</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Sección para Ver Pedidos -->
+  <div id="verPedidos" class="mt-4">
+    <h2>Lista de Pedidos</h2>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>ID Pedido</th>
+        <th>Fecha y Hora</th>
+        <th>Cliente</th>
+        <th>Restaurante</th>
+        <th>Repartidor</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Aquí se insertarán los pedidos desde el servidor -->
+      <tr>
+        <td>1</td>
+        <td>2024-11-23 12:30:00</td>
+        <td>Juan Pérez</td>
+        <td>Restaurante El Buen Sabor</td>
+        <td>Pedro López</td>
+        <td>En preparación</td>
+        <td>
+          <button class="btn btn-warning btn-sm" onclick="marcarRecogido(1)">Marcar como Recogido</button>
+          <button class="btn btn-success btn-sm" onclick="marcarEntregado(1)">Marcar como Entregado</button>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2024-11-23 13:00:00</td>
+        <td>Ana García</td>
+        <td>Restaurante La Pasta</td>
+        <td>María Fernández</td>
+        <td>Recogido</td>
+        <td>
+          <button class="btn btn-warning btn-sm" onclick="marcarRecogido(2)">Marcar como Recogido</button>
+          <button class="btn btn-success btn-sm" onclick="marcarEntregado(2)">Marcar como Entregado</button>
+        </td>
+      </tr>
+      <!-- Los demás pedidos se mostrarán aquí -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Sección de Buscar Pedido -->
+  <div id="buscarPedido" class="mt-4 hidden">
+    <h2>Buscar Pedido</h2>
+    <form action="/pedido/buscar" method="GET">
+      <div class="form-group">
+        <label for="busqueda">Buscar por Cliente, Restaurante, o Estado</label>
+        <input type="text" class="form-control" id="busqueda" name="busqueda">
+      </div>
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function showSection(sectionId) {
+    // Oculta todas las secciones
+    document.querySelectorAll('div[id]').forEach(section => section.classList.add('hidden'));
+    // Muestra la sección seleccionada
+    document.getElementById(sectionId).classList.remove('hidden');
+    // Cambia la pestaña activa
+    document.querySelectorAll('.nav-link').forEach(tab => tab.classList.remove('active'));
+    document.querySelector(`.nav-link[href="#"][onclick="showSection('${sectionId}')"]`).classList.add('active');
+  }
+
+  function marcarRecogido(pedidoId) {
+    // Aquí puedes agregar la lógica para marcar el pedido como "Recogido"
+    alert('Pedido ' + pedidoId + ' marcado como recogido');
+  }
+
+  function marcarEntregado(pedidoId) {
+    // Aquí puedes agregar la lógica para marcar el pedido como "Entregado"
+    alert('Pedido ' + pedidoId + ' marcado como entregado');
+  }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

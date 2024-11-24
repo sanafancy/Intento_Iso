@@ -9,11 +9,11 @@ public class ServicioEntrega {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private LocalDateTime fechaRecepcion;
+    private LocalDateTime fechaRecepcion; // Se registra al recoger el pedido
+    private LocalDateTime fechaEntrega; // Se registra al entregar el pedido
 
     @Column(nullable = false)
-    private LocalDateTime fechaEntrega;
+    private String estado; // Estados: "Notificado", "Recogido", "Entregado"
 
     @ManyToOne
     @JoinColumn(name = "repartidor_id", nullable = false)
@@ -30,9 +30,8 @@ public class ServicioEntrega {
     // Constructores
     public ServicioEntrega() {}
 
-    public ServicioEntrega(LocalDateTime fechaRecepcion, LocalDateTime fechaEntrega, Repartidor repartidor, Pedido pedido, Direccion direccion) {
-        this.fechaRecepcion = fechaRecepcion;
-        this.fechaEntrega = fechaEntrega;
+    public ServicioEntrega(String estado, Repartidor repartidor, Pedido pedido, Direccion direccion) {
+        this.estado = estado;
         this.repartidor = repartidor;
         this.pedido = pedido;
         this.direccion = direccion;
@@ -63,6 +62,14 @@ public class ServicioEntrega {
         this.fechaEntrega = fechaEntrega;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     public Repartidor getRepartidor() {
         return repartidor;
     }
@@ -89,7 +96,7 @@ public class ServicioEntrega {
 
     @Override
     public String toString() {
-        return String.format("ServicioEntrega [id=%s, fechaRecepcion=%s, fechaEntrega=%s, repartidor=%s, pedido=%s, direccion=%s]",
-                id, fechaRecepcion, fechaEntrega, repartidor.getNombre(), pedido.getId(), direccion);
+        return String.format("ServicioEntrega [id=%s, estado=%s, fechaRecepcion=%s, fechaEntrega=%s, repartidor=%s, pedido=%s, direccion=%s]",
+                id, estado, fechaRecepcion, fechaEntrega, repartidor.getNombre(), pedido.getId(), direccion);
     }
 }

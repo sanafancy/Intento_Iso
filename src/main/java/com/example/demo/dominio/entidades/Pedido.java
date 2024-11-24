@@ -9,19 +9,25 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
+    @Column(nullable = false)
     private LocalDateTime fechaHora;
-    @Column
-    private String estado;
+
+    @Column(nullable = false)
+    private String estado; // Estados posibles: "Pendiente", "Recogido", "En camino", "Entregado"
+
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
+
     @ManyToOne
-    @JoinColumn(name = "restaurante_id")
+    @JoinColumn(name = "restaurante_id", nullable = false)
     private Restaurante restaurante;
+
     @ManyToOne
     @JoinColumn(name = "repartidor_id")
     private Repartidor repartidor;
+
     @ManyToMany
     @JoinTable(
             name = "pedido_item_menu",
@@ -30,6 +36,7 @@ public class Pedido {
     )
     private List<ItemMenu> items;
 
+    // Constructores
     public Pedido() {}
 
     public Pedido(LocalDateTime fechaHora, String estado, Cliente cliente, Restaurante restaurante, Repartidor repartidor, List<ItemMenu> items) {
@@ -41,6 +48,7 @@ public class Pedido {
         this.items = items;
     }
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -97,9 +105,31 @@ public class Pedido {
         this.items = items;
     }
 
+    // Métodos de negocio
+    public boolean esEntregable() {
+        return "En camino".equals(this.estado);
+    }
+
+    public void marcarComoEntregado() {
+        if ("En camino".equals(this.estado)) {
+            this.estado = "Entregado";
+        } else {
+            throw new IllegalStateException("El pedido debe estar 'En camino' para ser entregado.");
+        }
+    }
+
+    public void marcarComoRecogido() {
+        if ("Pendiente".equals(this.estado)) {
+            this.estado = "En camino";
+        } else {
+            throw new IllegalStateException("El pedido debe estar 'Pendiente' para ser recogido.");
+        }
+    }
+
     @Override
     public String toString() {
         return String.format("Pedido [id=%s, fechaHora=%s, estado=%s, cliente=%s, restaurante=%s, repartidor=%s]",
-                id, fechaHora, estado, cliente, restaurante, repartidor);
+                id, fechaHora, estado, cliente.getNombre(), restaurante.getNombre(),
+                repartidor != null ? repartidor.getNombre() : "Sin asignar");
     }
 }
