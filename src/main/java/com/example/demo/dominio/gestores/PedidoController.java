@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,11 @@ public class PedidoController {
         return "buscarPedido";
     }
     @GetMapping("/realizarPago")
+    public String mostrarFormularioPago() {
+        logger.info("Accediendo a formulario de pago");
+        return "realizarPago";
+    }
+    @PostMapping("/realizarPago")
     public String realizarPago(@RequestParam Long pedidoId, @RequestParam MetodoPago metodoPago, Model model) {
         Pedido pedido = pedidoDAO.findById(pedidoId).orElse(null);
         if (pedido != null) {

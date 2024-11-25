@@ -8,6 +8,8 @@
 <body>
 <h1>Realizar Pago</h1>
 <form action="/realizarPago" method="post">
+  <label for="pedidoId">ID del Pedido:</label>
+  <input type="text" id="pedidoId" name="pedidoId" required><br><br>
 
   <label for="metodoPago">Método de Pago:</label>
   <select id="metodoPago" name="metodoPago" required>
