@@ -9,88 +9,86 @@
 * Poner las restricciones que dijo Naomi
 # Código sql
 -- Insertar clientes
-INSERT INTO Usuario (idUsuario, pass) VALUES (1, 'pass1'), (2, 'pass2'), (3, 'pass3');
-INSERT INTO Cliente (idUsuario, nombre, apellidos, dni) VALUES 
+INSERT INTO Usuario (ID_USUARIO, PASS) VALUES (1, 'pass1'), (2, 'pass2'), (3, 'pass3');
+INSERT INTO Cliente (ID_USUARIO, NOMBRE, APELLIDOS, DNI) VALUES
 (1, 'Juan', 'Pérez', '12345678A'),
 (2, 'Ana', 'López', '23456789B'),
 (3, 'Luis', 'Martínez', '34567890C');
 
 -- Insertar restaurantes y direcciones
-INSERT INTO Usuario (idUsuario, pass) VALUES (4, 'passRest1'), (5, 'passRest2'), (6, 'passRest3'), (7, 'passRest4'), (8, 'passRest5');
-INSERT INTO Restaurante (idUsuario, nombre, cif) VALUES
+INSERT INTO Usuario (ID_USUARIO, PASS) VALUES (4, 'passRest1'), (5, 'passRest2'), (6, 'passRest3'), (7, 'passRest4'), (8, 'passRest5');
+INSERT INTO Restaurante (ID_USUARIO, NOMBRE, CIF) VALUES
 (4, 'La Tapa Elegante', 'CIF123'),
 (5, 'Ole y Sazón', 'CIF234'),
 (6, 'Flamenco Bistro', 'CIF345'),
 (7, 'La Cocina del Sol', 'CIF456'),
 (8, 'El Patio Español', 'CIF567');
 
-INSERT INTO Direccion (calle, numero, complemento, codigoPostal, municipio, restaurante_id) VALUES
-('Calle Mayor', 1, '', 28001, 'Madrid', 4),
-('Gran Vía', 2, 'Piso 1', 28013, 'Madrid', 4),
-('Passeig de Gracia', 3, '', 08007, 'Barcelona', 5),
-('Via del Corso', 4, 'Piso 2', 00186, 'Roma', 5),
-('Friedrichstraße', 5, '', 10117, 'Berlín', 6),
-('Kurfürstendamm', 6, 'Piso 3', 10707, 'Berlín', 6),
-('Calle de Alcalá', 7, '', 28014, 'Madrid', 7),
-('Calle de Serrano', 8, 'Piso 4', 28001, 'Madrid', 7),
-('Las Ramblas', 9, '', 08002, 'Barcelona', 8),
-('Calle de Aragón', 10, 'Piso 5', 08009, 'Barcelona', 8);
+INSERT INTO Direccion (ID, CALLE, CODIGO_POSTAL, COMPLEMENTO, MUNICIPIO, NUMERO, RESTAURANTE_ID) VALUES
+(1, 'Calle Mayor', 28001, '', 'Madrid', 1, 4),
+(2, 'Gran Vía', 28013, 'Piso 1', 'Madrid', 2, 4),
+(3, 'Passeig de Gracia', 08007, '', 'Barcelona', 3, 5),
+(4, 'Via del Corso', 00186, 'Piso 2', 'Roma', 4, 5),
+(5, 'Friedrichstraße', 10117, '', 'Berlín', 5, 6),
+(6, 'Kurfürstendamm', 10707, 'Piso 3', 'Berlín', 6, 6),
+(7, 'Calle de Alcalá', 28014, '', 'Madrid', 7, 7),
+(8, 'Calle de Serrano', 28001, 'Piso 4', 'Madrid', 8, 7),
+(9, 'Las Ramblas', 08002, '', 'Barcelona', 9, 8),
+(10, 'Calle de Aragón', 08009, 'Piso 5', 'Barcelona', 10, 8);
 
 -- Insertar cartas de menú
-INSERT INTO CartaMenu (nombre, restaurante_id) VALUES
-('Tapas y Entradas', 4),
-('Platos Principales', 4),
-('Postres y Bebidas', 4),
-('Tapas y Entradas', 5),
-('Platos Principales', 5),
-('Postres y Bebidas', 5),
-('Tapas y Entradas', 6),
-('Platos Principales', 6),
-('Postres y Bebidas', 6),
-('Tapas y Entradas', 7),
-('Platos Principales', 7),
-('Postres y Bebidas', 7),
-('Tapas y Entradas', 8),
-('Platos Principales', 8),
-('Postres y Bebidas', 8);
+INSERT INTO Carta_Menu (ID, NOMBRE, RESTAURANTE_ID) VALUES
+(1, 'Tapas y Entradas', 4),
+(2, 'Platos Principales', 4),
+(3, 'Postres y Bebidas', 4),
+(4, 'Tapas y Entradas', 5),
+(5, 'Platos Principales', 5),
+(6, 'Postres y Bebidas', 5),
+(7, 'Tapas y Entradas', 6),
+(8, 'Platos Principales', 6),
+(9, 'Postres y Bebidas', 6),
+(10, 'Tapas y Entradas', 7),
+(11, 'Platos Principales', 7),
+(12, 'Postres y Bebidas', 7),
+(13, 'Tapas y Entradas', 8),
+(14, 'Platos Principales', 8),
+(15, 'Postres y Bebidas', 8);
 
 -- Insertar items en los menús
-INSERT INTO ItemMenu (nombre, precio, tipo, carta_menu_id) VALUES
-('Café', 1.50, 'Bebida', 1),
-('Tostadas', 2.00, 'Comida', 1),
-('Zumo de Naranja', 2.50, 'Bebida', 1),
-('Croissant', 1.80, 'Comida', 1),
+INSERT INTO Item_Menu (ID, NOMBRE, PRECIO, TIPO, CARTA_MENU_ID) VALUES
+(1, 'Café', 1.50, 'Bebida', 1),
+(2, 'Tostadas', 2.00, 'Comida', 1),
+(3, 'Zumo de Naranja', 2.50, 'Bebida', 1),
+(4, 'Croissant', 1.80, 'Comida', 1),
 
-('Ensalada', 4.50, 'Entrante', 2),
-('Sopa', 3.50, 'Entrante', 2),
-('Pollo asado', 7.50, 'Principal', 2),
-('Flan', 2.00, 'Postre', 2),
+(5, 'Ensalada', 4.50, 'Entrante', 2),
+(6, 'Sopa', 3.50, 'Entrante', 2),
+(7, 'Pollo asado', 7.50, 'Principal', 2),
+(8, 'Flan', 2.00, 'Postre', 2),
 
-('Hamburguesa', 5.50, 'Principal', 3),
-('Pizza', 6.50, 'Principal', 3),
-('Refresco', 1.80, 'Bebida', 3),
-('Helado', 2.20, 'Postre', 3),
+(9, 'Hamburguesa', 5.50, 'Principal', 3),
+(10, 'Pizza', 6.50, 'Principal', 3),
+(11, 'Refresco', 1.80, 'Bebida', 3),
+(12, 'Helado', 2.20, 'Postre', 3),
 
-('Té', 1.50, 'Bebida', 4),
-('Sándwich', 2.50, 'Comida', 4),
-('Baguette', 3.00, 'Comida', 4),
-('Panqueque', 2.50, 'Comida', 4),
+(13, 'Té', 1.50, 'Bebida', 4),
+(14, 'Sándwich', 2.50, 'Comida', 4),
+(15, 'Baguette', 3.00, 'Comida', 4),
+(16, 'Panqueque', 2.50, 'Comida', 4),
 
-('Ensaladilla', 4.00, 'Entrante', 5),
-('Crema de Verduras', 3.50, 'Entrante', 5),
-('Solomillo', 8.00, 'Principal', 5),
-('Tarta de Queso', 2.50, 'Postre', 5),
+(17, 'Ensaladilla', 4.00, 'Entrante', 5),
+(18, 'Crema de Verduras', 3.50, 'Entrante', 5),
+(19, 'Solomillo', 8.00, 'Principal', 5),
+(20, 'Tarta de Queso', 2.50, 'Postre', 5),
 
 -- Continúa con los items para los demás menús según la estructura proporcionada
-('Tapas Variadas', 4.00, 'Entrante', 6),
-('Gambas al Ajillo', 6.50, 'Entrante', 6),
-('Paella', 10.00, 'Principal', 6),
-('Crema Catalana', 3.50, 'Postre', 6),
+(21, 'Tapas Variadas', 4.00, 'Entrante', 6),
+(22, 'Gambas al Ajillo', 6.50, 'Entrante', 6),
+(23, 'Paella', 10.00, 'Principal', 6),
+(24, 'Crema Catalana', 3.50, 'Postre', 6),
 
-('Gazpacho', 3.00, 'Entrante', 7),
-('Pulpo a la Gallega', 9.00, 'Principal', 7),
-('Vino Tinto', 2.50, 'Bebida', 7),
-('Churros con Chocolate', 3.00, 'Postre', 7);
-
--- Añade más items a los menús de los otros restaurantes siguiendo la misma estructura
+(25, 'Gazpacho', 3.00, 'Entrante', 7),
+(26, 'Pulpo a la Gallega', 9.00, 'Principal', 7),
+(27, 'Vino Tinto', 2.50, 'Bebida', 7),
+(28, 'Churros con Chocolate', 3.00, 'Postre', 7);
 
