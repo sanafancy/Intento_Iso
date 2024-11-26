@@ -8,103 +8,89 @@
 * Poner lo de buscar restaurante como índice
 * Poner las restricciones que dijo Naomi
 # Código sql
-INSERT INTO cliente (nombre, email, telefono) VALUES ('Juan Pérez', 'juan.perez@example.com', '123456789');
-INSERT INTO cliente (nombre, email, telefono) VALUES ('María García', 'maria.garcia@example.com', '987654321');
-INSERT INTO cliente (nombre, email, telefono) VALUES ('Carlos López', 'carlos.lopez@example.com', '456789123');
+-- Insertar clientes
+INSERT INTO Usuario (idUsuario, pass) VALUES (1, 'pass1'), (2, 'pass2'), (3, 'pass3');
+INSERT INTO Cliente (idUsuario, nombre, apellidos, dni) VALUES 
+(1, 'Juan', 'Pérez', '12345678A'),
+(2, 'Ana', 'López', '23456789B'),
+(3, 'Luis', 'Martínez', '34567890C');
 
-INSERT INTO restaurante (id, cif, nombre) VALUES (1, 'CIF123A', 'La Casa del Pollo');
-INSERT INTO restaurante (id, cif, nombre) VALUES (2, 'CIF123B', 'El Rincón de Pepe');
-INSERT INTO restaurante (id, cif, nombre) VALUES (3, 'CIF123C', 'La Marisquería');
-INSERT INTO restaurante (id, cif, nombre) VALUES (4, 'CIF123D', 'Pizzería Bella Italia');
+-- Insertar restaurantes y direcciones
+INSERT INTO Usuario (idUsuario, pass) VALUES (4, 'passRest1'), (5, 'passRest2'), (6, 'passRest3'), (7, 'passRest4'), (8, 'passRest5');
+INSERT INTO Restaurante (idUsuario, nombre, cif) VALUES
+(4, 'La Tapa Elegante', 'CIF123'),
+(5, 'Ole y Sazón', 'CIF234'),
+(6, 'Flamenco Bistro', 'CIF345'),
+(7, 'La Cocina del Sol', 'CIF456'),
+(8, 'El Patio Español', 'CIF567');
 
--- Menús para La Casa del Pollo
-INSERT INTO carta_menu (nombre, restaurante_id) VALUES ('Menú Desayuno', 1);
-INSERT INTO carta_menu (nombre, restaurante_id) VALUES ('Menú Almuerzo', 1);
+INSERT INTO Direccion (calle, numero, complemento, codigoPostal, municipio, restaurante_id) VALUES
+('Calle Mayor', 1, '', 28001, 'Madrid', 4),
+('Gran Vía', 2, 'Piso 1', 28013, 'Madrid', 4),
+('Passeig de Gracia', 3, '', 08007, 'Barcelona', 5),
+('Via del Corso', 4, 'Piso 2', 00186, 'Roma', 5),
+('Friedrichstraße', 5, '', 10117, 'Berlín', 6),
+('Kurfürstendamm', 6, 'Piso 3', 10707, 'Berlín', 6),
+('Calle de Alcalá', 7, '', 28014, 'Madrid', 7),
+('Calle de Serrano', 8, 'Piso 4', 28001, 'Madrid', 7),
+('Las Ramblas', 9, '', 08002, 'Barcelona', 8),
+('Calle de Aragón', 10, 'Piso 5', 08009, 'Barcelona', 8);
 
--- Menús para El Rincón de Pepe
-INSERT INTO carta_menu (nombre, restaurante_id) VALUES ('Menú Cena', 2);
-INSERT INTO carta_menu (nombre, restaurante_id) VALUES ('Menú Postres', 2);
+-- Insertar cartas de menú
+INSERT INTO CartaMenu (nombre, restaurante_id) VALUES
+('Tapas y Entradas', 4),
+('Platos Principales', 4),
+('Postres y Bebidas', 4),
+('Tapas y Entradas', 5),
+('Platos Principales', 5),
+('Postres y Bebidas', 5),
+('Tapas y Entradas', 6),
+('Platos Principales', 6),
+('Postres y Bebidas', 6),
+('Tapas y Entradas', 7),
+('Platos Principales', 7),
+('Postres y Bebidas', 7),
+('Tapas y Entradas', 8),
+('Platos Principales', 8),
+('Postres y Bebidas', 8);
 
--- Menús para La Marisquería
-INSERT INTO carta_menu (nombre, restaurante_id) VALUES ('Menú Mariscos', 3);
-INSERT INTO carta_menu (nombre, restaurante_id) VALUES ('Menú Especial', 3);
+-- Insertar items en los menús
+INSERT INTO ItemMenu (nombre, precio, tipo, carta_menu_id) VALUES
+('Café', 1.50, 'Bebida', 1),
+('Tostadas', 2.00, 'Comida', 1),
+('Zumo de Naranja', 2.50, 'Bebida', 1),
+('Croissant', 1.80, 'Comida', 1),
 
--- Menús para Pizzería Bella Italia
-INSERT INTO carta_menu (nombre, restaurante_id) VALUES ('Menú Pizzas', 4);
-INSERT INTO carta_menu (nombre, restaurante_id) VALUES ('Menú Pastas', 4);
+('Ensalada', 4.50, 'Entrante', 2),
+('Sopa', 3.50, 'Entrante', 2),
+('Pollo asado', 7.50, 'Principal', 2),
+('Flan', 2.00, 'Postre', 2),
 
--- Items para Menú Desayuno (La Casa del Pollo)
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Café', 1.50, 'Bebida', 1);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Tostada', 2.00, 'Comida', 1);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Zumo de Naranja', 2.50, 'Bebida', 1);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Croissant', 1.80, 'Comida', 1);
+('Hamburguesa', 5.50, 'Principal', 3),
+('Pizza', 6.50, 'Principal', 3),
+('Refresco', 1.80, 'Bebida', 3),
+('Helado', 2.20, 'Postre', 3),
 
--- Items para Menú Almuerzo (La Casa del Pollo)
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Ensalada', 5.00, 'Comida', 2);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Sopa', 3.50, 'Comida', 2);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Pollo Asado', 8.00, 'Comida', 2);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Agua', 1.00, 'Bebida', 2);
+('Té', 1.50, 'Bebida', 4),
+('Sándwich', 2.50, 'Comida', 4),
+('Baguette', 3.00, 'Comida', 4),
+('Panqueque', 2.50, 'Comida', 4),
 
--- Items para Menú Cena (El Rincón de Pepe)
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Pizza', 7.00, 'Comida', 3);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Pasta', 6.50, 'Comida', 3);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Vino', 3.00, 'Bebida', 3);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Helado', 2.50, 'Postre', 3);
+('Ensaladilla', 4.00, 'Entrante', 5),
+('Crema de Verduras', 3.50, 'Entrante', 5),
+('Solomillo', 8.00, 'Principal', 5),
+('Tarta de Queso', 2.50, 'Postre', 5),
 
--- Items para Menú Postres (El Rincón de Pepe)
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Tarta de Queso', 3.50, 'Postre', 4);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Brownie', 3.00, 'Postre', 4);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Café', 1.50, 'Bebida', 4);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Té', 1.20, 'Bebida', 4);
+-- Continúa con los items para los demás menús según la estructura proporcionada
+('Tapas Variadas', 4.00, 'Entrante', 6),
+('Gambas al Ajillo', 6.50, 'Entrante', 6),
+('Paella', 10.00, 'Principal', 6),
+('Crema Catalana', 3.50, 'Postre', 6),
 
--- Items para Menú Mariscos (La Marisquería)
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Gambas', 12.00, 'Comida', 5);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Mejillones', 10.00, 'Comida', 5);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Calamares', 11.00, 'Comida', 5);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Pulpo', 13.00, 'Comida', 5);
+('Gazpacho', 3.00, 'Entrante', 7),
+('Pulpo a la Gallega', 9.00, 'Principal', 7),
+('Vino Tinto', 2.50, 'Bebida', 7),
+('Churros con Chocolate', 3.00, 'Postre', 7);
 
--- Items para Menú Especial (La Marisquería)
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Paella', 15.00, 'Comida', 6);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Arroz Negro', 14.00, 'Comida', 6);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Fideuá', 13.50, 'Comida', 6);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Sangría', 3.50, 'Bebida', 6);
+-- Añade más items a los menús de los otros restaurantes siguiendo la misma estructura
 
--- Items para Menú Pizzas (Pizzería Bella Italia)
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Pizza Margarita', 8.00, 'Comida', 7);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Pizza Pepperoni', 9.00, 'Comida', 7);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Pizza Cuatro Quesos', 9.50, 'Comida', 7);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Pizza Vegetariana', 8.50, 'Comida', 7);
-
--- Items para Menú Pastas (Pizzería Bella Italia)
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Spaghetti Carbonara', 7.50, 'Comida', 8);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Lasaña', 8.00, 'Comida', 8);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Raviolis', 7.00, 'Comida', 8);
-INSERT INTO item_menu (nombre, precio, tipo, carta_menu_id) VALUES ('Tiramisú', 4.00, 'Postre', 8);
-
--- Direcciones para La Casa del Pollo
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
-VALUES ('Calle del Sauce', 110, 'Local 3', 28970, 'Humanes de Madrid', 1);
-
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
-VALUES ('Avenida de las Flores', 21, 'Frente al parque', 28971, 'Griñón', 1);
-
--- Direcciones para El Rincón de Pepe
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
-VALUES ('Calle Mayor', 5, '1ºB', 28013, 'Madrid', 2);
-
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
-VALUES ('Plaza de España', 2, '2ºD', 28750, 'San Sebastián de los Reyes', 2);
-
--- Direcciones para La Marisquería
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
-VALUES ('Paseo del Mar', 75, '', 28850, 'Torrejón de Ardoz', 3);
-
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
-VALUES ('Calle del Puerto', 18, '3ºA', 28042, 'Madrid', 3);
-
--- Direcciones para Pizzería Bella Italia
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
-VALUES ('Calle de Italia', 200, '', 28010, 'Madrid', 4);
-
-INSERT INTO direccion (calle, numero, complemento, codigo_postal, municipio, restaurante_id) 
-VALUES ('Avenida de Europa', 15, 'Local 5', 28224, 'Pozuelo de Alarcón', 4);
