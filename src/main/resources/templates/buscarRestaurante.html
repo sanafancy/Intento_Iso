@@ -7,16 +7,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+<header>
+  <div th:if="${usuarioLogueado == null}">
+    <a href="/registro">Registrarse</a>
+    <a href="/login">Iniciar Sesión</a>
+  </div>
+  <div th:if="${usuarioLogueado != null}">
+    <span th:text="'Bienvenido, ' + ${usuarioLogueado.nombre}"></span>
+    <a href="/logout">Cerrar Sesión</a>
+  </div>
+</header>
 <h1>Buscar Restaurante</h1>
-<form action="#" th:action="@{/restaurantes}" method="get">
-  <input type="text" id="busqueda" name="busqueda" placeholder="Buscar Restaurante">
+<form th:action="@{/Inicio}" method="get">
+  <input type="text" name="busqueda" placeholder="Buscar...">
   <button type="submit">Buscar</button>
 </form>
-<ul>
-  <li th:each="restaurante : ${restaurantes}">
-    <a th:href="@{/restaurantes/{restauranteId}/pedido(restauranteId=${restaurante.id})}" th:text="${restaurante.nombre}">Nombre del Restaurante</a>
-    <span th:each="direccion : ${restaurante.direcciones}" th:text="${direccion.calle + ', ' + direccion.numero + ', ' + direccion.municipio + ', ' + direccion.codigoPostal}">Dirección</span>
-  </li>
-</ul>
+<div th:if="${restaurantes != null}">
+  <ul>
+    <li th:each="restaurante : ${restaurantes}">
+      <div>
+        <a th:if="${usuarioLogueado == null}" th:href="@{/login}" th:text="${restaurante.nombre}">Restaurante</a>
+        <a th:if="${usuarioLogueado != null}" th:href="@{/restaurantes/{id}/menu(id=${restaurante.idUsuario})}" th:text="${restaurante.nombre}">Restaurante</a>
+      </div>
+      <div th:each="direccion : ${restaurante.direcciones}">
+        <span th:text="'Calle: ' + ${direccion.calle}"></span>
+      </div>
+    </li>
+  </ul>
+</div>
 </body>
 </html>
