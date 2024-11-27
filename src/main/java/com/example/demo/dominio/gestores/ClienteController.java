@@ -7,15 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
-@SessionAttributes("usuarioLogueado")
 public class ClienteController {
     private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
 
@@ -32,8 +28,7 @@ public class ClienteController {
     public String registroClienteSubmit(@ModelAttribute Cliente cliente, Model model) {
         Cliente savedCliente = clienteDAO.save(cliente);
         model.addAttribute("cliente", savedCliente);
-        model.addAttribute("usuarioLogueado", savedCliente);
         log.info("Cliente registrado: " + savedCliente);
-        return "redirect:/Inicio";
+        return "resultadoCliente";
     }
 }

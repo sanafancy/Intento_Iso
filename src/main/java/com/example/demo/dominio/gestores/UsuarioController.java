@@ -8,15 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes("usuarioLogueado")
 public class UsuarioController {
     private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
@@ -30,16 +29,23 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute Usuario usuario, Model model) {
+    public String loginSubmit(@ModelAttribute Usuario usuario, Model model, HttpSession session) {
         Optional<Usuario> usuarioOpt = usuarioDAO.findById(usuario.getIdUsuario());
         if (usuarioOpt.isPresent() && usuarioOpt.get().getPass().equals(usuario.getPass())) {
-            model.addAttribute("usuarioLogueado", usuarioOpt.get());
+            session.setAttribute("usuario", usuarioOpt.get());
+            model.addAttribute("usuario", usuarioOpt.get());
             log.info("Usuario logueado: " + usuarioOpt.get());
-            return "redirect:/Inicio"; // Redirigir a la página principal después del login
+            return "redirect:/"; // Redirigir a la página principal después del login
         } else {
             model.addAttribute("error", "ID de usuario o contraseña incorrectos");
             return "login";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 
     @GetMapping("/registro")
