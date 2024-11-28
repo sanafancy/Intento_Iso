@@ -57,4 +57,17 @@ public class RestauranteController {
         }
         return "pedido";
     }
+
+    @GetMapping("/registro/restaurante")
+    public String registroRestauranteForm(Model model) {
+        model.addAttribute("restaurante", new Restaurante());
+        return "registroRestaurante";
+    }
+    @PostMapping("/registro/restaurante")
+    public String registroRestauranteSubmit(@ModelAttribute Restaurante restaurante, Model model) {
+        Restaurante savedRestaurante = restauranteDAO.save(restaurante);
+        model.addAttribute("restaurante", savedRestaurante);
+        log.info("Restaurante registrado: " + savedRestaurante);
+        return "resultadoRestaurante";
+    }
 }
