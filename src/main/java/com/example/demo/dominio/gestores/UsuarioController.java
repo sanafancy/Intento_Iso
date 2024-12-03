@@ -1,5 +1,8 @@
 package com.example.demo.dominio.gestores;
 
+import com.example.demo.dominio.entidades.Cliente;
+import com.example.demo.dominio.entidades.Repartidor;
+import com.example.demo.dominio.entidades.Restaurante;
 import com.example.demo.dominio.entidades.Usuario;
 import com.example.demo.persistencia.UsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +33,24 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute Usuario usuario, Model model, HttpSession session) {
-        Optional<Usuario> usuarioOpt = usuarioDAO.findById(usuario.getIdUsuario());
+        Optional<Usuario> usuarioOpt = usuarioDAO.findByEmail(usuario.getEmail());
         if (usuarioOpt.isPresent() && usuarioOpt.get().getPass().equals(usuario.getPass())) {
             session.setAttribute("usuario", usuarioOpt.get());
             model.addAttribute("usuario", usuarioOpt.get());
             log.info("Usuario logueado: " + usuarioOpt.get());
-            return "redirect:/"; // Redirigir a la página principal después del login
+
+            // Redirigir según el tipo de usuario
+            if (usuarioOpt.get() instanceof Cliente) {
+                return "redirect:/paginaCliente";
+            } else if (usuarioOpt.get() instanceof Restaurante) {
+                return "redirect:/paginaRestaurante";
+            } else if (usuarioOpt.get() instanceof Repartidor) {
+                return "redirect:/paginaRepartidor";
+            } else {
+                return "redirect:/";
+            }
         } else {
-            model.addAttribute("error", "ID de usuario o contraseña incorrectos");
+            model.addAttribute("error", "Correo electrónico o contraseña incorrectos");
             return "login";
         }
     }
