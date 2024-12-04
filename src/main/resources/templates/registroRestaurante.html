@@ -2,22 +2,23 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro Restaurante</title>
 </head>
 <body>
 <h1>Registro Restaurante</h1>
-<form action="/registro/restaurante" method="post">
+<form action="/restaurantes/registro" method="post">
   <label for="nombre">Nombre:</label>
-  <input type="text" id="nombre" name="nombre" required>
+  <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
   <br>
   <label for="cif">CIF:</label>
-  <input type="text" id="cif" name="cif" required>
+  <input type="text" id="cif" name="cif" placeholder="CIF" required>
   <br>
-  <label for="email">Correo Electrónico:</label>
-  <input type="email" id="email" name="email" required>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" placeholder="Email" required>
   <br>
   <label for="pass">Contraseña:</label>
-  <input type="password" id="pass" name="pass" required>
+  <input type="password" id="pass" name="pass" placeholder="Contraseña" required>
   <br>
   <button type="submit">Registrar</button>
 </form>

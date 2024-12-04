@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class RestauranteController {
@@ -22,7 +23,7 @@ public class RestauranteController {
 
     @Autowired
     private RestauranteDAO restauranteDAO;
-
+/*
     @GetMapping("/")
     public String listarRestaurantes(@RequestParam(required = false) String busqueda, Model model) {
         List<Restaurante> restaurantes;
@@ -56,18 +57,39 @@ public class RestauranteController {
             log.info("Cartas de menú encontradas para el restaurante: " + restaurante.getNombre());
         }
         return "pedido";
-    }
+    }*/
 
-    @GetMapping("/registro/restaurante")
-    public String registroRestauranteForm(Model model) {
+    @GetMapping("/registro")
+    public String showRegistroForm(Model model) {
         model.addAttribute("restaurante", new Restaurante());
         return "registroRestaurante";
     }
-    @PostMapping("/registro/restaurante")
-    public String registroRestauranteSubmit(@ModelAttribute Restaurante restaurante, Model model) {
-        Restaurante savedRestaurante = restauranteDAO.save(restaurante);
-        model.addAttribute("restaurante", savedRestaurante);
-        log.info("Restaurante registrado: " + savedRestaurante);
-        return "resultadoRestaurante";
+
+    @PostMapping("/registro")
+    public String registerRestaurante(@ModelAttribute Restaurante restaurante) {
+        restauranteDAO.save(restaurante);
+        return "redirect:/restaurantes/login";
+    }
+
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("restaurante", new Restaurante());
+        return "loginRestaurante";
+    }
+
+    @PostMapping("/login")
+    public String loginRestaurante(@ModelAttribute Restaurante restaurante, HttpSession session) {
+        Optional<Restaurante> optionalRestaurante = restauranteDAO.findByEmailAndPass(restaurante.getEmail(), restaurante.getPass());
+        if (optionalRestaurante.isPresent()) {
+            session.setAttribute("restaurante", optionalRestaurante.get());
+            return "redirect:/restaurantes/paginaRestaurante";
+        } else {
+            return "loginRestaurante";
+        }
+    }
+
+    @GetMapping("/paginaRestaurante")
+    public String paginaRestaurante() {
+        return "paginaRestaurante";
     }
 }
