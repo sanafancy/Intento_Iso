@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RestauranteDAO extends JpaRepository <Restaurante, Long> {
+public interface RestauranteDAO extends JpaRepository<Restaurante, Long> {
     List<Restaurante> findByNombreContainingIgnoreCase(String nombre);
     List<Restaurante> findByDirecciones_CalleContainingIgnoreCase(String calle);
     List<Restaurante> findByDirecciones_MunicipioContainingIgnoreCase(String municipio);
