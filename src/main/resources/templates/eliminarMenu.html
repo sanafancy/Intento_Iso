@@ -8,6 +8,14 @@
 <body>
 <h1>Eliminar Menú</h1>
 <form action="/restaurantes/eliminarMenu" method="post">
+  <ul>
+    <th:block th:each="carta : ${cartas}">
+      <li>
+        <input type="checkbox" th:value="${carta.id}" name="ids" />
+        <span th:text="${carta.nombre}">Nombre del Menú</span>
+      </li>
+    </th:block>
+  </ul>
   <button type="submit">Eliminar</button>
 </form>
 </body>
