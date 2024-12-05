@@ -1,18 +1,20 @@
 package com.example.demo.dominio.gestores;
 
+import com.example.demo.dominio.entidades.CartaMenu;
+import com.example.demo.dominio.entidades.ItemMenu;
 import com.example.demo.dominio.entidades.Restaurante;
+import com.example.demo.persistencia.CartaMenuDAO;
+import com.example.demo.persistencia.ItemMenuDAO;
 import com.example.demo.persistencia.RestauranteDAO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -21,6 +23,13 @@ public class RestauranteController {
     @Autowired
     private RestauranteDAO restauranteDAO;
 
+    @Autowired
+    private CartaMenuDAO cartaMenuDAO;
+
+    @Autowired
+    private ItemMenuDAO itemMenuDAO;
+
+    //registrarse
     @GetMapping("/registro")
     public String showRegistroForm(Model model) {
         model.addAttribute("restaurante", new Restaurante());
@@ -33,6 +42,7 @@ public class RestauranteController {
         return "redirect:/restaurantes/login";
     }
 
+    //iniciar sesion
     @GetMapping("/login")
     public String showLoginForm(Model model) {
         model.addAttribute("restaurante", new Restaurante());
@@ -50,8 +60,104 @@ public class RestauranteController {
         }
     }
 
+    //pagina principal de restaurante
     @GetMapping("/paginaRestaurante")
     public String paginaRestaurante() {
         return "paginaRestaurante";
+    }
+
+    //carta y las funciones del menu
+    @GetMapping("/carta")
+    public String carta(HttpSession session, Model model) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
+            model.addAttribute("cartas", cartas);
+        }
+        return "carta";
+    }
+
+    @GetMapping("/anadirMenu")
+    public String showAnadirMenuForm(Model model) {
+        model.addAttribute("cartaMenu", new CartaMenu());
+        return "anadirMenu";
+    }
+
+    @PostMapping("/anadirMenu")
+    public String anadirMenu(@ModelAttribute CartaMenu cartaMenu, HttpSession session) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            cartaMenu.setRestaurante(restaurante);
+            cartaMenuDAO.save(cartaMenu);
+        }
+        return "redirect:/restaurantes/carta";
+    }
+
+    @GetMapping("/eliminarMenu")
+    public String showEliminarMenuForm(HttpSession session, Model model) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
+            model.addAttribute("cartas", cartas);
+        }
+        return "eliminarMenu";
+    }
+
+    @PostMapping("/eliminarMenu")
+    public String eliminarMenu(@RequestParam List<Long> ids, HttpSession session) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            for (Long id : ids) {
+                Optional<CartaMenu> optionalCartaMenu = cartaMenuDAO.findById(id);
+                if (optionalCartaMenu.isPresent() && optionalCartaMenu.get().getRestaurante().equals(restaurante)) {
+                    cartaMenuDAO.deleteById(id);
+                }
+            }
+        }
+        return "redirect:/restaurantes/carta";
+    }
+
+    @GetMapping("/anadirItem")
+    public String showAnadirItemForm(HttpSession session, Model model) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
+            model.addAttribute("cartas", cartas);
+            model.addAttribute("itemMenu", new ItemMenu());
+        }
+        return "anadirItem";
+    }
+
+    @PostMapping("/anadirItem")
+    public String anadirItem(@ModelAttribute ItemMenu itemMenu, HttpSession session) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            itemMenuDAO.save(itemMenu);
+        }
+        return "redirect:/restaurantes/carta";
+    }
+
+    @GetMapping("/eliminarItem")
+    public String showEliminarItemForm(HttpSession session, Model model) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
+            model.addAttribute("cartas", cartas);
+        }
+        return "eliminarItem";
+    }
+
+    @PostMapping("/eliminarItem")
+    public String eliminarItem(@RequestParam List<Long> ids, HttpSession session) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            for (Long id : ids) {
+                Optional<ItemMenu> optionalItemMenu = itemMenuDAO.findById(id);
+                if (optionalItemMenu.isPresent() && optionalItemMenu.get().getCartaMenu().getRestaurante().equals(restaurante)) {
+                    itemMenuDAO.deleteById(id);
+                }
+            }
+        }
+        return "redirect:/restaurantes/carta";
     }
 }

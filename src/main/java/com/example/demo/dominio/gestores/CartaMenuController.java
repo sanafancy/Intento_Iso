@@ -5,10 +5,10 @@ import com.example.demo.persistencia.CartaMenuDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 @Controller
@@ -17,7 +17,7 @@ public class CartaMenuController {
 
     @Autowired
     private CartaMenuDAO cartaMenuDAO;
-
+/*
     @GetMapping("/menus")
     public String listarMenus(Model model) {
         List<CartaMenu> cartasMenu = cartaMenuDAO.findAll();
@@ -35,5 +35,5 @@ public class CartaMenuController {
             logger.info("Items de menú para la carta: " + cartaMenu.getNombre());
         }
         return "verItemsMenu";
-    }
+        }*/
 }
