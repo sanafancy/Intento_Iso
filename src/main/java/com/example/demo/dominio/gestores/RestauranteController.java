@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -73,6 +75,14 @@ public class RestauranteController {
         if (restaurante != null) {
             List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
             model.addAttribute("cartas", cartas);
+
+            // Obtener los ítems de cada menú
+            Map<Long, List<ItemMenu>> itemsPorMenu = new HashMap<>();
+            for (CartaMenu carta : cartas) {
+                List<ItemMenu> items = itemMenuDAO.findByCartaMenu(carta);
+                itemsPorMenu.put(carta.getId(), items);
+            }
+            model.addAttribute("itemsPorMenu", itemsPorMenu);
         }
         return "carta";
     }
