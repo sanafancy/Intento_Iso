@@ -3,19 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carta</title>
+  <title>Eliminar Items</title>
 </head>
 <body>
-<h1>Carta</h1>
-<div>
-  <button onclick="location.href='/restaurantes/anadirMenu'">Añadir Menú</button>
-  <button onclick="location.href='/restaurantes/eliminarMenu'">Eliminar Menú</button>
-  <button onclick="location.href='/restaurantes/todosMenus'">Añadir Item</button>
-  <button onclick="location.href='/restaurantes/eliminarItems'">Eliminar Items</button>
-</div>
-
-<div>
-  <h2>Menús</h2>
+<h1>Eliminar Items</h1>
+<form action="/restaurantes/eliminarItems" method="post">
   <ul>
     <th:block th:each="carta : ${cartas}">
       <li>
@@ -23,6 +15,7 @@
         <ul>
           <th:block th:each="item : ${itemsPorMenu[carta.id]}">
             <li>
+              <input type="checkbox" name="itemIds" th:value="${item.id}">
               <span th:text="${item.nombre}">Nombre del Item</span> -
               <span th:text="${item.precio}">Precio</span> -
               <span th:text="${item.tipo}">Tipo</span>
@@ -32,6 +25,7 @@
       </li>
     </th:block>
   </ul>
-</div>
+  <button type="submit">Eliminar Items Seleccionados</button>
+</form>
 </body>
 </html>

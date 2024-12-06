@@ -150,26 +150,26 @@ public class RestauranteController {
         return "redirect:/restaurantes/carta";
     }
 
-    @GetMapping("/eliminarItem")
-    public String showEliminarItemForm(HttpSession session, Model model) {
+    @GetMapping("/eliminarItems")
+    public String showEliminarItemsPage(HttpSession session, Model model) {
         Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
         if (restaurante != null) {
             List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
             model.addAttribute("cartas", cartas);
-        }
-        return "eliminarItem";
-    }
-
-    @PostMapping("/eliminarItem")
-    public String eliminarItem(@RequestParam List<Long> ids, HttpSession session) {
-        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
-        if (restaurante != null) {
-            for (Long id : ids) {
-                Optional<ItemMenu> optionalItemMenu = itemMenuDAO.findById(id);
-                if (optionalItemMenu.isPresent() && optionalItemMenu.get().getCartaMenu().getRestaurante().equals(restaurante)) {
-                    itemMenuDAO.deleteById(id);
-                }
+            // Obtener los ítems de cada menú
+            Map<Long, List<ItemMenu>> itemsPorMenu = new HashMap<>();
+            for (CartaMenu carta : cartas) {
+                List<ItemMenu> items = itemMenuDAO.findByCartaMenu(carta);
+                itemsPorMenu.put(carta.getId(), items);
             }
+            model.addAttribute("itemsPorMenu", itemsPorMenu);
+        }
+        return "eliminarItems";
+    }
+    @PostMapping("/eliminarItems")
+    public String eliminarItems(@RequestParam("itemIds") List<Long> itemIds) {
+        for (Long id : itemIds) {
+            itemMenuDAO.deleteById(id);
         }
         return "redirect:/restaurantes/carta";
     }
