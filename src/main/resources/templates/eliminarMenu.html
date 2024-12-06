@@ -11,12 +11,12 @@
   <ul>
     <th:block th:each="carta : ${cartas}">
       <li>
-        <input type="checkbox" th:value="${carta.id}" name="ids" />
+        <input type="checkbox" name="menuIds" th:value="${carta.id}">
         <span th:text="${carta.nombre}">Nombre del Menú</span>
       </li>
     </th:block>
   </ul>
-  <button type="submit">Eliminar</button>
+  <button type="submit">Eliminar Menús Seleccionados</button>
 </form>
 </body>
 </html>

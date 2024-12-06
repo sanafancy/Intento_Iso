@@ -102,9 +102,8 @@ public class RestauranteController {
         }
         return "redirect:/restaurantes/carta";
     }
-
     @GetMapping("/eliminarMenu")
-    public String showEliminarMenuForm(HttpSession session, Model model) {
+    public String showEliminarMenuPage(HttpSession session, Model model) {
         Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
         if (restaurante != null) {
             List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
@@ -113,20 +112,14 @@ public class RestauranteController {
         return "eliminarMenu";
     }
 
+    // Procesar la eliminación de menús seleccionados
     @PostMapping("/eliminarMenu")
-    public String eliminarMenu(@RequestParam List<Long> ids, HttpSession session) {
-        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
-        if (restaurante != null) {
-            for (Long id : ids) {
-                Optional<CartaMenu> optionalCartaMenu = cartaMenuDAO.findById(id);
-                if (optionalCartaMenu.isPresent() && optionalCartaMenu.get().getRestaurante().equals(restaurante)) {
-                    cartaMenuDAO.deleteById(id);
-                }
-            }
+    public String eliminarMenus(@RequestParam("menuIds") List<Long> menuIds) {
+        for (Long id : menuIds) {
+            cartaMenuDAO.deleteById(id);
         }
         return "redirect:/restaurantes/carta";
     }
-
     @GetMapping("/anadirItem")
     public String showAnadirItemForm(HttpSession session, Model model) {
         Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
