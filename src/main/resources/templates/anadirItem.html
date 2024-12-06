@@ -8,14 +8,11 @@
 <body>
 <h1>Añadir Item</h1>
 <form action="/restaurantes/anadirItem" method="post">
-  <label for="menu">Seleccionar Menú:</label>
-  <select id="menu" name="menu">
-    <!-- Aquí se listarán los menús -->
-  </select>
-  <label for="nombre">Nombre del Item:</label>
+  <input type="hidden" name="menuId" th:value="${menuId}">
+  <label for="nombre">Nombre del Ítem:</label>
   <input type="text" id="nombre" name="nombre" required>
   <label for="precio">Precio:</label>
-  <input type="number" id="precio" name="precio" required>
+  <input type="number" id="precio" name="precio" step="0.01" required>
   <label for="tipo">Tipo:</label>
   <input type="text" id="tipo" name="tipo" required>
   <button type="submit">Añadir</button>

@@ -120,21 +120,31 @@ public class RestauranteController {
         }
         return "redirect:/restaurantes/carta";
     }
-    @GetMapping("/anadirItem")
-    public String showAnadirItemForm(HttpSession session, Model model) {
+    // Añadir metodo para mostrar la página de todos los menús
+    @GetMapping("/todosMenus")
+    public String showTodosMenus(HttpSession session, Model model) {
         Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
         if (restaurante != null) {
             List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
             model.addAttribute("cartas", cartas);
-            model.addAttribute("itemMenu", new ItemMenu());
         }
+        return "todosMenus";
+    }
+
+    // Añadir metodo para mostrar el formulario de añadir ítem
+    @GetMapping("/anadirItem/{menuId}")
+    public String showAnadirItemForm(@PathVariable Long menuId, Model model) {
+        model.addAttribute("itemMenu", new ItemMenu());
+        model.addAttribute("menuId", menuId);
         return "anadirItem";
     }
 
+    // Añadir metodo para manejar la lógica de añadir ítem
     @PostMapping("/anadirItem")
-    public String anadirItem(@ModelAttribute ItemMenu itemMenu, HttpSession session) {
-        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
-        if (restaurante != null) {
+    public String anadirItem(@ModelAttribute ItemMenu itemMenu, @RequestParam Long menuId) {
+        Optional<CartaMenu> optionalCartaMenu = cartaMenuDAO.findById(menuId);
+        if (optionalCartaMenu.isPresent()) {
+            itemMenu.setCartaMenu(optionalCartaMenu.get());
             itemMenuDAO.save(itemMenu);
         }
         return "redirect:/restaurantes/carta";
