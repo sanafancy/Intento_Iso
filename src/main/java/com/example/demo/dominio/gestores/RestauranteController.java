@@ -1,9 +1,11 @@
 package com.example.demo.dominio.gestores;
 
 import com.example.demo.dominio.entidades.CartaMenu;
+import com.example.demo.dominio.entidades.Direccion;
 import com.example.demo.dominio.entidades.ItemMenu;
 import com.example.demo.dominio.entidades.Restaurante;
 import com.example.demo.persistencia.CartaMenuDAO;
+import com.example.demo.persistencia.DireccionDAO;
 import com.example.demo.persistencia.ItemMenuDAO;
 import com.example.demo.persistencia.RestauranteDAO;
 import jakarta.servlet.http.HttpSession;
@@ -30,6 +32,8 @@ public class RestauranteController {
 
     @Autowired
     private ItemMenuDAO itemMenuDAO;
+    @Autowired
+    private DireccionDAO direccionDAO;
 
     //registrarse
     @GetMapping("/registro")
@@ -172,5 +176,52 @@ public class RestauranteController {
             itemMenuDAO.deleteById(id);
         }
         return "redirect:/restaurantes/carta";
+    }
+
+    // Direcciones
+    @GetMapping("/direcciones")
+    public String mostrarDirecciones(HttpSession session, Model model) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            List<Direccion> direcciones = direccionDAO.findByRestaurante(restaurante);
+            model.addAttribute("direcciones", direcciones);
+        }
+        return "direcciones";
+    }
+
+    // Mostrar formulario para añadir dirección
+    @GetMapping("/anadirDireccion")
+    public String mostrarFormularioAnadirDireccion(Model model) {
+        model.addAttribute("direccion", new Direccion());
+        return "anadirDireccion";
+    }
+
+    // Manejar la lógica para añadir dirección
+    @PostMapping("/anadirDireccion")
+    public String anadirDireccion(@ModelAttribute Direccion direccion, HttpSession session) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            direccion.setRestaurante(restaurante);
+            direccionDAO.save(direccion);
+        }
+        return "redirect:/restaurantes/direcciones";
+    }
+
+    // Mostrar página para eliminar dirección
+    @GetMapping("/eliminarDireccion")
+    public String mostrarEliminarDireccion(HttpSession session, Model model) {
+        Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
+        if (restaurante != null) {
+            List<Direccion> direcciones = direccionDAO.findByRestaurante(restaurante);
+            model.addAttribute("direcciones", direcciones);
+        }
+        return "eliminarDireccion";
+    }
+
+    // Manejar la lógica para eliminar dirección
+    @PostMapping("/eliminarDireccion")
+    public String eliminarDireccion(@RequestParam("direccionId") Long direccionId) {
+        direccionDAO.deleteById(direccionId);
+        return "redirect:/restaurantes/direcciones";
     }
 }
