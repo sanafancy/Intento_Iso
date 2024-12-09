@@ -17,23 +17,5 @@ public class CartaMenuController {
 
     @Autowired
     private CartaMenuDAO cartaMenuDAO;
-/*
-    @GetMapping("/menus")
-    public String listarMenus(Model model) {
-        List<CartaMenu> cartasMenu = cartaMenuDAO.findAll();
-        model.addAttribute("cartasMenu", cartasMenu);
-        logger.info("Cartas de menú encontradas: " + cartasMenu);
-        return "listarMenus";
-    }
 
-    @GetMapping("/menus/{id}")
-    public String verItemsMenu(@PathVariable Long id, Model model) {
-        CartaMenu cartaMenu = cartaMenuDAO.findById(id).orElse(null);
-        if (cartaMenu != null) {
-            model.addAttribute("cartaMenu", cartaMenu);
-            model.addAttribute("itemsMenu", cartaMenu.getItems());
-            logger.info("Items de menú para la carta: " + cartaMenu.getNombre());
-        }
-        return "verItemsMenu";
-        }*/
 }

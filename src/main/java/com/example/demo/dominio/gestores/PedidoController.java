@@ -17,18 +17,5 @@ public class PedidoController {
 
     @Autowired
     private PedidoDAO pedidoDAO;
-/*
-    @GetMapping("/buscarPedido")
-    public String buscarPedido(@RequestParam(required = false) String busqueda, Model model) {
-        List<Pedido> pedidos;
-        if (busqueda != null && !busqueda.isEmpty()) {
-            // Implementar lógica de búsqueda según los criterios necesarios
-            pedidos = pedidoDAO.findAll(); // Placeholder
-        } else {
-            pedidos = pedidoDAO.findAll();
-        }
-        model.addAttribute("pedidos", pedidos);
-        logger.info("Pedidos encontrados: " + pedidos);
-        return "buscarPedido";
-    }*/
+
 }

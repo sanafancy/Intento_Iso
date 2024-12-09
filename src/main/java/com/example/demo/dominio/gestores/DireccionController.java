@@ -18,24 +18,5 @@ public class DireccionController {
 
     @Autowired
     private DireccionDAO direccionDAO;
-/*
-    @GetMapping("/buscarDireccion")
-    public String buscarDireccion(@RequestParam(required = false) String calle,
-                                  @RequestParam(required = false) String municipio,
-                                  @RequestParam(required = false) Integer codigoPostal,
-                                  Model model) {
-        List<Direccion> direcciones;
-        if (calle != null && !calle.isEmpty()) {
-            direcciones = direccionDAO.findByCalleContainingIgnoreCase(calle);
-        } else if (municipio != null && !municipio.isEmpty()) {
-            direcciones = direccionDAO.findByMunicipioContainingIgnoreCase(municipio);
-        } else if (codigoPostal != null) {
-            direcciones = direccionDAO.findByCodigoPostal(codigoPostal);
-        } else {
-            direcciones = direccionDAO.findAll();
-        }
-        model.addAttribute("direcciones", direcciones);
-        log.info("Direcciones encontradas: " + direcciones);
-        return "buscarDireccion";
-    }*/
+
 }
