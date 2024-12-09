@@ -16,8 +16,12 @@
 <h2>Restaurantes Registrados:</h2>
 <ul>
     <li th:each="restaurante : ${restaurantes}">
-        <span th:text="${restaurante.nombre}">Nombre del Restaurante</span> -
-        <span th:each="direccion : ${restaurante.direcciones}" th:text="${direccion.calle + ', ' + direccion.numero + ', ' + direccion.municipio + ', ' + direccion.codigoPostal}">Dirección</span>
+        <span th:text="${restaurante.nombre}">Nombre del Restaurante</span>
+        <ul>
+            <li th:each="direccion : ${restaurante.direcciones}">
+                <span th:text="${direccion.calle + ', ' + direccion.numero + ', ' + direccion.municipio + ', ' + direccion.codigoPostal}">Dirección</span>
+            </li>
+        </ul>
     </li>
 </ul>
 </body>
