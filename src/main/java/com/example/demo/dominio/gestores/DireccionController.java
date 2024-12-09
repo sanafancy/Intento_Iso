@@ -18,7 +18,7 @@ public class DireccionController {
 
     @Autowired
     private DireccionDAO direccionDAO;
-
+/*
     @GetMapping("/buscarDireccion")
     public String buscarDireccion(@RequestParam(required = false) String calle,
                                   @RequestParam(required = false) String municipio,
@@ -37,5 +37,5 @@ public class DireccionController {
         model.addAttribute("direcciones", direcciones);
         log.info("Direcciones encontradas: " + direcciones);
         return "buscarDireccion";
-    }
+    }*/
 }

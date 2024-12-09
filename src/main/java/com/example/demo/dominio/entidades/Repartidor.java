@@ -15,8 +15,8 @@ public class Repartidor extends Usuario {
 
     public Repartidor() {}
 
-    public Repartidor(String pass, String nombre, String apellidos, String nif, Double eficiencia) {
-        super(pass);
+    public Repartidor(String email, String  pass, String nombre, String apellidos, String nif, Double eficiencia) {
+        super(email, pass);
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.nif = nif;

@@ -17,7 +17,7 @@ public class PedidoController {
 
     @Autowired
     private PedidoDAO pedidoDAO;
-
+/*
     @GetMapping("/buscarPedido")
     public String buscarPedido(@RequestParam(required = false) String busqueda, Model model) {
         List<Pedido> pedidos;
@@ -30,5 +30,5 @@ public class PedidoController {
         model.addAttribute("pedidos", pedidos);
         logger.info("Pedidos encontrados: " + pedidos);
         return "buscarPedido";
-    }
+    }*/
 }
