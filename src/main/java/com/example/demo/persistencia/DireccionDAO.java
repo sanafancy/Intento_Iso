@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public interface DireccionDAO extends JpaRepository<Direccion, Long> {
-    /*List<Direccion> findByCalleContainingIgnoreCase(String calle);
+    List<Direccion> findByCalleContainingIgnoreCase(String calle);
     List<Direccion> findByMunicipioContainingIgnoreCase(String municipio);
-    List<Direccion> findByCodigoPostal(int codigoPostal);*/
+    List<Direccion> findByCodigoPostal(int codigoPostal);
     List<Direccion> findByRestaurante(Restaurante restaurante);
 }

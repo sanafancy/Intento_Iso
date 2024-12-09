@@ -9,5 +9,16 @@
 <h1>Bienvenido a la Aplicación</h1>
 <button onclick="location.href='/registroOpciones'">Registrarse</button>
 <button onclick="location.href='/loginOpciones'">Iniciar Sesión</button>
+<form action="#" th:action="@{/buscarRestaurante}" method="get">
+    <input type="text" id="busqueda" name="busqueda" placeholder="Nombre, Dirección, Código Postal o Municipio">
+    <button type="submit">Buscar</button>
+</form>
+<h2>Restaurantes Registrados:</h2>
+<ul>
+    <li th:each="restaurante : ${restaurantes}">
+        <span th:text="${restaurante.nombre}">Nombre del Restaurante</span> -
+        <span th:each="direccion : ${restaurante.direcciones}" th:text="${direccion.calle + ', ' + direccion.numero + ', ' + direccion.municipio + ', ' + direccion.codigoPostal}">Dirección</span>
+    </li>
+</ul>
 </body>
 </html>
