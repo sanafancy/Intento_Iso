@@ -13,4 +13,5 @@ public interface RestauranteDAO extends JpaRepository<Restaurante, Long> {
     List<Restaurante> findByDirecciones_MunicipioContainingIgnoreCase(String municipio);
     List<Restaurante> findByDirecciones_CodigoPostal(int codigoPostal);*/
     Optional<Restaurante> findByEmailAndPass(String email, String pass);
+    void delete(Restaurante restaurante);
 }

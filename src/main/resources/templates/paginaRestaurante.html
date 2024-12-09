@@ -10,5 +10,21 @@
     <p>Esta es la página específica para restaurantes.</p>
     <button onclick="location.href='/restaurantes/carta'">Carta</button>
     <button onclick="location.href='/restaurantes/direcciones'">Direcciones</button>
+    <button onclick="eliminarRestaurante()">Eliminar Restaurante</button>
+
+    <script>
+        function eliminarRestaurante() {
+            if (confirm("¿Estás seguro de que deseas eliminar el restaurante y todos sus datos?")) {
+                fetch('/restaurantes/eliminar', { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/';
+                        } else {
+                            alert('Error al eliminar el restaurante.');
+                        }
+                    });
+            }
+        }
+    </script>
 </body>
 </html>
