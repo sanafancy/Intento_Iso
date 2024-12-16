@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta</title>
+</head>
+<body>
+<h1>Carta</h1>
+<div>
+  <button onclick="location.href='/restaurantes/anadirMenu'">Añadir Menú</button>
+  <button onclick="location.href='/restaurantes/eliminarMenu'">Eliminar Menú</button>
+  <button onclick="location.href='/restaurantes/todosMenus'">Añadir Item</button>
+  <button onclick="location.href='/restaurantes/eliminarItems'">Eliminar Items</button>
+</div>
+
+<div>
+  <h2>Menús</h2>
+  <ul>
+    <th:block th:each="carta : ${cartas}">
+      <li>
+        <h3 th:text="${carta.nombre}">Nombre del Menú</h3>
+        <ul>
+          <th:block th:each="item : ${itemsPorMenu[carta.id]}">
+            <li>
+              <span th:text="${item.nombre}">Nombre del Item</span> -
+              <span th:text="${item.precio}">Precio</span> -
+              <span th:text="${item.tipo}">Tipo</span>
+            </li>
+          </th:block>
+        </ul>
+      </li>
+    </th:block>
+  </ul>
+</div>
+</body>
+</html>

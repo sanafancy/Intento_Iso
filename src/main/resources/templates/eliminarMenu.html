@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Menú</title>
+</head>
+<body>
+<h1>Eliminar Menú</h1>
+<form action="/restaurantes/eliminarMenu" method="post">
+  <ul>
+    <th:block th:each="carta : ${cartas}">
+      <li>
+        <input type="checkbox" name="menuIds" th:value="${carta.id}">
+        <span th:text="${carta.nombre}">Nombre del Menú</span>
+      </li>
+    </th:block>
+  </ul>
+  <button type="submit">Eliminar Menús Seleccionados</button>
+</form>
+</body>
+</html>

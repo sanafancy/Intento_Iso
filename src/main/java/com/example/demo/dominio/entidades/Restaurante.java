@@ -19,8 +19,8 @@ public class Restaurante extends Usuario{
 
     public Restaurante() {}
     // Constructor
-    public Restaurante(String pass,String  nombre, String cif) {
-        super(pass);
+    public Restaurante(String email,String pass,String  nombre, String cif) {
+        super(email, pass);
         this.nombre = nombre;
         this.cif = cif;
     }

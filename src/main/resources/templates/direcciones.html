@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direcciones</title>
+</head>
+<body>
+<h1>Direcciones del Restaurante</h1>
+<div id="direcciones-list">
+    <ul>
+        <li th:each="direccion : ${direcciones}">
+            <span th:text="${direccion.calle}"></span>,
+            <span th:text="${direccion.numero}"></span>,
+            <span th:text="${direccion.codigoPostal}"></span>,
+            <span th:text="${direccion.municipio}"></span>
+        </li>
+    </ul>
+</div>
+<button onclick="location.href='/restaurantes/anadirDireccion'">Añadir Dirección</button>
+<button onclick="location.href='/restaurantes/eliminarDireccion'">Eliminar Dirección</button>
+</body>
+</html>
