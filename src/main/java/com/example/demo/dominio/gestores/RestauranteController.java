@@ -66,6 +66,25 @@ public class RestauranteController {
             return "loginRestaurante";
         }
     }
+    @GetMapping("/{id}")
+    public String mostrarRestaurante(@PathVariable Long id, HttpSession session, Model model) {
+        // Verificar si el cliente está autenticado
+        //if (session.getAttribute("cliente") == null) {
+         //   return "redirect:/clientes/login";  // Redirige al login si no hay sesión activa
+        //}
+
+        Optional<Restaurante> restauranteOpt = restauranteDAO.findById(id);
+        if (restauranteOpt.isPresent()) {
+            Restaurante restaurante = restauranteOpt.get();
+            model.addAttribute("restaurante", restaurante);
+            // Aquí se pueden agregar las cartas y los ítems, si es necesario
+            List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
+            model.addAttribute("cartas", cartas);
+        } else {
+            return "error";  // Página de error si el restaurante no existe
+        }
+        return "ClpovPagRest";  // Página con la información del restaurante
+    }
 
     //pagina principal de restaurante
     @GetMapping("/paginaRestaurante")

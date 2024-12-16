@@ -10,7 +10,15 @@ body {
     align-items: center;
     justify-content: center;
 }
-
+form {
+    background-color: #fff8ec; /* Fondo claro para el formulario */
+    padding: 30px;
+    border-radius: 12px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    max-width: 400px; /* Ancho máximo */
+    width: 100%; /* Que el formulario sea responsive */
+    box-sizing: border-box; /* Incluye padding en el tamaño total */
+}
 /* Encabezado principal */
 h1 {
     font-family: 'Poppins', sans-serif; /* Fuente cursiva y divertida */
@@ -19,14 +27,32 @@ h1 {
     font-size: 2.5em;
     text-align: center;
 }
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #5a3d2b; /* Marrón intermedio */
+}
 
 /* Estilos del formulario */
-form {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin: 20px 0;
+input[type="email"],
+input[type="password"] {
+    width: 100%; /* Ajustar al contenedor */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #e0c4a8; /* Borde marrón claro */
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #333;
 }
+
+input::placeholder {
+    color: #c4a484; /* Marrón suave */
+    font-style: italic;
+}
+
 
 input[type="text"] {
     padding: 10px;
@@ -51,7 +77,17 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #8b5e3c; /* Marrón oscuro */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 button:hover {
     background-color: #a5673f; /* Marrón ligeramente más oscuro */
 }

@@ -2,10 +2,12 @@ package com.example.demo.dominio.gestores;
 
 import com.example.demo.dominio.entidades.Restaurante;
 import com.example.demo.persistencia.RestauranteDAO;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public class HomeController {
     public String home(Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAll();
         model.addAttribute("restaurantes", restaurantes);
-        return "inicio";
+        return "inicio";  // Asegúrate de que la vista "inicio.html" esté en src/main/resources/templates/
     }
 
     @GetMapping("/buscarRestaurante")
@@ -40,6 +42,18 @@ public class HomeController {
         }
         model.addAttribute("restaurantes", restaurantes);
         return "inicio";
+    }
+
+    @GetMapping("/restaurante/{id}")
+    public String verRestaurante(@PathVariable Long id, HttpSession session) {
+        // Verificar si el cliente está autenticado
+        if (session.getAttribute("cliente") == null) {
+            // Si el cliente no está autenticado, redirigir al login
+            return "redirect:/clientes/login";
+        }
+
+        // Si está autenticado, proceder a mostrar la página del restaurante
+        return "redirect:/restaurantes/" + id; // Redirigir al restaurante para que se muestre la carta
     }
 
     @GetMapping("/registroOpciones")

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurante - [[${restaurante.nombre}]]</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<h1 th:text="${restaurante.nombre}">Nombre del Restaurante</h1>
+<h2>Carta del Restaurante</h2>
+
+<!-- Mostrar las cartas y los ítems del menú -->
+<div th:each="carta, cartaStat : ${cartas}">
+  <h3 th:text="${carta.nombre}">Carta</h3>
+  <ul>
+    <li th:each="item : ${itemsPorMenu[carta.id]}">
+      <span th:text="${item.nombre}">Nombre del Item</span> -
+      <span th:text="${item.precio}">Precio</span>
+    </li>
+  </ul>
+</div>
+
+<!-- Formulario para realizar un pedido (esto es solo un ejemplo) -->
+<form action="#" method="post">
+  <label for="itemSeleccionado">Selecciona un ítem:</label>
+  <select id="itemSeleccionado" name="itemSeleccionado">
+    <option th:each="item : ${itemsPorMenu}" th:value="${item.id}" th:text="${item.nombre}">Item</option>
+  </select>
+  <button type="submit">Hacer Pedido</button>
+</form>
+
+<!-- Si el cliente no ha iniciado sesión, redirigir al login -->
+<div th:if="${session.cliente == null}">
+  <p>Para realizar un pedido, debes iniciar sesión.</p>
+  <a href="/clientes/login">Iniciar sesión</a>
+</div>
+
+</body>
+</html>
