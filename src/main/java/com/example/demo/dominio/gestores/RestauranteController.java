@@ -4,6 +4,7 @@ import com.example.demo.dominio.entidades.CartaMenu;
 import com.example.demo.dominio.entidades.Direccion;
 import com.example.demo.dominio.entidades.ItemMenu;
 import com.example.demo.dominio.entidades.Restaurante;
+import com.example.demo.dominio.entidades.Cliente;
 import com.example.demo.persistencia.CartaMenuDAO;
 import com.example.demo.persistencia.DireccionDAO;
 import com.example.demo.persistencia.ItemMenuDAO;
@@ -16,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +27,14 @@ import java.util.Optional;
 public class RestauranteController {
     @Autowired
     private RestauranteDAO restauranteDAO;
-
     @Autowired
     private CartaMenuDAO cartaMenuDAO;
-
     @Autowired
     private ItemMenuDAO itemMenuDAO;
     @Autowired
     private DireccionDAO direccionDAO;
 
-    //registrarse
+    // Registrarse
     @GetMapping("/registro")
     public String showRegistroForm(Model model) {
         model.addAttribute("restaurante", new Restaurante());
@@ -49,7 +47,7 @@ public class RestauranteController {
         return "redirect:/restaurantes/login";
     }
 
-    //iniciar sesion
+    // Iniciar sesión
     @GetMapping("/login")
     public String showLoginForm(Model model) {
         model.addAttribute("restaurante", new Restaurante());
@@ -67,20 +65,19 @@ public class RestauranteController {
         }
     }
 
-    //pagina principal de restaurante
+    // Página principal de restaurante
     @GetMapping("/paginaRestaurante")
     public String paginaRestaurante() {
         return "paginaRestaurante";
     }
 
-    //carta y las funciones del menu
+    // Carta y las funciones del menú
     @GetMapping("/carta")
     public String carta(HttpSession session, Model model) {
         Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
         if (restaurante != null) {
             List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
             model.addAttribute("cartas", cartas);
-
             // Obtener los ítems de cada menú
             Map<Long, List<ItemMenu>> itemsPorMenu = new HashMap<>();
             for (CartaMenu carta : cartas) {
@@ -107,6 +104,7 @@ public class RestauranteController {
         }
         return "redirect:/restaurantes/carta";
     }
+
     @GetMapping("/eliminarMenu")
     public String showEliminarMenuPage(HttpSession session, Model model) {
         Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
@@ -125,7 +123,8 @@ public class RestauranteController {
         }
         return "redirect:/restaurantes/carta";
     }
-    // Añadir metodo para mostrar la página de todos los menús
+
+    // Añadir método para mostrar la página de todos los menús
     @GetMapping("/todosMenus")
     public String showTodosMenus(HttpSession session, Model model) {
         Restaurante restaurante = (Restaurante) session.getAttribute("restaurante");
@@ -136,7 +135,7 @@ public class RestauranteController {
         return "todosMenus";
     }
 
-    // Añadir metodo para mostrar el formulario de añadir ítem
+    // Añadir método para mostrar el formulario de añadir ítem
     @GetMapping("/anadirItem/{menuId}")
     public String showAnadirItemForm(@PathVariable Long menuId, Model model) {
         model.addAttribute("itemMenu", new ItemMenu());
@@ -144,7 +143,7 @@ public class RestauranteController {
         return "anadirItem";
     }
 
-    // Añadir metodo para manejar la lógica de añadir ítem
+    // Añadir método para manejar la lógica de añadir ítem
     @PostMapping("/anadirItem")
     public String anadirItem(@ModelAttribute ItemMenu itemMenu, @RequestParam Long menuId) {
         Optional<CartaMenu> optionalCartaMenu = cartaMenuDAO.findById(menuId);
@@ -171,6 +170,7 @@ public class RestauranteController {
         }
         return "eliminarItems";
     }
+
     @PostMapping("/eliminarItems")
     public String eliminarItems(@RequestParam("itemIds") List<Long> itemIds) {
         for (Long id : itemIds) {
@@ -225,10 +225,26 @@ public class RestauranteController {
         direccionDAO.deleteById(direccionId);
         return "redirect:/restaurantes/direcciones";
     }
-    //eliminar restaurante por completo
+
+    // Eliminar restaurante por completo
     @DeleteMapping("/eliminar")
     public ResponseEntity<Void> eliminarRestaurante(@SessionAttribute("restaurante") Restaurante restaurante) {
         restauranteDAO.delete(restaurante);
         return ResponseEntity.ok().build();
+    }
+
+    // Método para marcar un restaurante como favorito
+    @PostMapping("/marcarFavorito")
+    public String marcarFavorito(@RequestParam Long restauranteId, HttpSession session) {
+        Cliente cliente = (Cliente) session.getAttribute("cliente");
+        if (cliente != null) {
+            Optional<Restaurante> optionalRestaurante = restauranteDAO.findById(restauranteId);
+            if (optionalRestaurante.isPresent()) {
+                Restaurante restaurante = optionalRestaurante.get();
+                cliente.getFavoritos().add(restaurante);
+                restauranteDAO.save(restaurante);
+            }
+        }
+        return "redirect:/restaurantes/favoritos";
     }
 }

@@ -18,6 +18,10 @@ public class Cliente extends Usuario{
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Direccion> direcciones;
 
+    @ManyToMany
+    @JoinTable(name = "cliente_favoritos", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "restaurante_id"))
+    private List<Restaurante> favoritos;
+
     public Cliente() {}
 
     public Cliente(String email, String pass,String nombre, String apellidos, String dni) {
@@ -68,6 +72,12 @@ public class Cliente extends Usuario{
     public void setDirecciones(List<Direccion> direcciones) {
         this.direcciones = direcciones;
     }
+
+    public List<Restaurante> getFavoritos() {
+        return favoritos;}
+
+    public void setFavoritos(List<Restaurante> favoritos) {
+        this.favoritos = favoritos;}
 
     @Override
     public String toString() {

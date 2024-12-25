@@ -1,6 +1,7 @@
 package com.example.demo.persistencia;
 
-import com.example.demo.dominio.entidades.*;
+import com.example.demo.dominio.entidades.Restaurante;
+import com.example.demo.dominio.entidades.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -14,4 +15,7 @@ public interface RestauranteDAO extends JpaRepository<Restaurante, Long> {
     List<Restaurante> findByDirecciones_CodigoPostal(int codigoPostal);
     Optional<Restaurante> findByEmailAndPass(String email, String pass);
     void delete(Restaurante restaurante);
+
+    // Métodos para manejar favoritos
+    List<Restaurante> findByFavoritosContaining(Cliente cliente);
 }
