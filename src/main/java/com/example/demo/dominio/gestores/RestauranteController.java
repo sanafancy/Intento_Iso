@@ -1,15 +1,13 @@
 package com.example.demo.dominio.gestores;
 
-import com.example.demo.dominio.entidades.CartaMenu;
-import com.example.demo.dominio.entidades.Direccion;
-import com.example.demo.dominio.entidades.ItemMenu;
-import com.example.demo.dominio.entidades.Restaurante;
+import com.example.demo.dominio.entidades.*;
 import com.example.demo.persistencia.CartaMenuDAO;
 import com.example.demo.persistencia.DireccionDAO;
 import com.example.demo.persistencia.ItemMenuDAO;
 import com.example.demo.persistencia.RestauranteDAO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,22 +66,31 @@ public class RestauranteController {
     }
     @GetMapping("/{id}")
     public String mostrarRestaurante(@PathVariable Long id, HttpSession session, Model model) {
-        // Verificar si el cliente está autenticado
-        //if (session.getAttribute("cliente") == null) {
-         //   return "redirect:/clientes/login";  // Redirige al login si no hay sesión activa
-        //}
+        if (session.getAttribute("cliente") == null) {
+            // Redirigir a login con el restaurante como parametro
+            //return "redirect:/clientes/login?redirectUrl=/restaurantes/" + id;
+            return "redirect:/clientes/login";
+        }
 
         Optional<Restaurante> restauranteOpt = restauranteDAO.findById(id);
         if (restauranteOpt.isPresent()) {
             Restaurante restaurante = restauranteOpt.get();
             model.addAttribute("restaurante", restaurante);
-            // Aquí se pueden agregar las cartas y los ítems, si es necesario
+
+            // Cargar cartas e ítems si existen
             List<CartaMenu> cartas = cartaMenuDAO.findByRestaurante(restaurante);
+            Map<Long, List<ItemMenu>> itemsPorMenu = new HashMap<>();
+            for (CartaMenu carta : cartas) {
+                List<ItemMenu> items = itemMenuDAO.findByCartaMenu(carta);
+                itemsPorMenu.put(carta.getId(), items);
+            }
             model.addAttribute("cartas", cartas);
-        } else {
-            return "error";  // Página de error si el restaurante no existe
+            model.addAttribute("itemsPorMenu", itemsPorMenu);
+
+            return "pedirDeRestaurante";  // Vista del restaurante
         }
-        return "ClpovPagRest";  // Página con la información del restaurante
+        // Si no hay restaurante, vuelve a la página de búsqueda
+        return "redirect:/";
     }
 
     //pagina principal de restaurante
@@ -249,5 +256,26 @@ public class RestauranteController {
     public ResponseEntity<Void> eliminarRestaurante(@SessionAttribute("restaurante") Restaurante restaurante) {
         restauranteDAO.delete(restaurante);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/addItem")
+    @ResponseBody
+    public ResponseEntity<String> addItemToCart(@PathVariable Long id, @RequestParam Long itemId, HttpSession session) {
+        Cliente cliente = (Cliente) session.getAttribute("cliente");
+        if (cliente == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Debe iniciar sesión para añadir items.");
+        }
+
+        Optional<Restaurante> restauranteOpt = restauranteDAO.findById(id);
+        if (restauranteOpt.isPresent()) {
+            Optional<ItemMenu> itemOpt = itemMenuDAO.findById(itemId);
+            if (itemOpt.isPresent()) {
+                // Lógica para añadir el ítem al pedido (por simplificar, usarías un servicio o DAO aquí)
+                // ...
+                return ResponseEntity.ok("Ítem añadido al pedido.");
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Restaurante o ítem no encontrado.");
     }
 }

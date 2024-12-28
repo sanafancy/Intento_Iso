@@ -9,6 +9,7 @@
 <body>
 <h1>Login Cliente</h1>
 <form action="/clientes/login" method="post">
+    <input type="hidden" name="redirectUrl" th:value="${param.redirectUrl}" />
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" placeholder="Email" required>
     <br>

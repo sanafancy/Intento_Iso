@@ -18,7 +18,7 @@
 <ul>
     <li th:each="restaurante : ${restaurantes}">
         <span th:text="${restaurante.nombre}">Nombre del Restaurante</span>
-        <a th:href="@{${session.cliente != null ? '/restaurante/' + restaurante.id : '/clientes/login'}}" th:text="${restaurante.nombre}">Nombre del Restaurante</a>
+        <a th:href="@{${session.cliente != null ? '/restaurante/' + restaurante.idUsuario : '/clientes/login'}}" th:text="${restaurante.nombre}">Nombre del Restaurante</a>
         <ul>
             <li th:each="direccion : ${restaurante.direcciones}">
                 <span th:text="${direccion.calle + ', ' + direccion.numero + ', ' + direccion.municipio + ', ' + direccion.codigoPostal}">Dirección</span>

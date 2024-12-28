@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${restaurante.nombre}">Restaurante</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<h1 th:text="${restaurante.nombre}">Nombre del Restaurante</h1>
+
+<h2>Cartas de Menú</h2>
+<div th:if="${cartas.empty}">
+    <p>Este restaurante aún no tiene cartas de menú disponibles.</p>
+    <a href="/">Volver a la página de búsqueda</a>
+</div>
+<div th:each="carta : ${cartas}" th:unless="${cartas.empty}">
+    <h3 th:text="${carta.nombre}">Nombre de la Carta</h3>
+    <ul>
+        <li th:each="item : ${itemsPorMenu[carta.id]}">
+            <span th:text="${item.nombre}">Nombre del Ítem</span> -
+            <span th:text="${item.precio}">Precio</span>
+            <button th:onclick="'addItemToCart(' + ${item.id} + ')'">Añadir al Pedido</button>
+        </li>
+    </ul>
+</div>
+
+<a href="/">Volver a la página de búsqueda</a>
+</body>
+</html>

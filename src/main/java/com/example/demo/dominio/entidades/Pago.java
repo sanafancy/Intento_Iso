@@ -8,10 +8,12 @@ import java.util.UUID;
 public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "varchar(36)") //uuid a varchar en H2
     private UUID idTransaccion;
     @Column
     private Date fechaTransaccion;
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(255)")
     private MetodoPago metodoPago;
     @OneToOne(mappedBy = "pago")
     private Pedido pedido;
