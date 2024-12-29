@@ -4,26 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${restaurante.nombre}">Restaurante</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="/estilos.css">
 </head>
 <body>
 <h1 th:text="${restaurante.nombre}">Nombre del Restaurante</h1>
 
-<h2>Cartas de Menú</h2>
+<h2>Cartas</h2>
 <div th:if="${cartas.empty}">
     <p>Este restaurante aún no tiene cartas de menú disponibles.</p>
     <a href="/">Volver a la página de búsqueda</a>
 </div>
-<div th:each="carta : ${cartas}" th:unless="${cartas.empty}">
-    <h3 th:text="${carta.nombre}">Nombre de la Carta</h3>
+<div th:each="carta : ${cartas}">
+    <h3 th:text="${carta.nombre}">Carta</h3>
     <ul>
         <li th:each="item : ${itemsPorMenu[carta.id]}">
             <span th:text="${item.nombre}">Nombre del Ítem</span> -
             <span th:text="${item.precio}">Precio</span>
-            <button th:onclick="'addItemToCart(' + ${item.id} + ')'">Añadir al Pedido</button>
+            <!-- Control de cantidad -->
+            <div>
+                <button type="button" th:onclick="'decrementQuantity(' + ${item.id} + ')'" onclick="decrementQuantity(itemId)">-</button>
+                <span id="quantity-${item.id}">0</span>
+                <button type="button" th:onclick="'incrementQuantity(' + ${item.id} + ')'" onclick="incrementQuantity(itemId)">+</button>
+            </div>
         </li>
     </ul>
 </div>
+<h2>Total del Pedido: $<span id="total">0.00</span></h2>
+<form action="/restaurantes/pedido" method="post">
+    <input type="hidden" name="restauranteId" th:value="${restaurante.idUsuario}">
+    <input type="hidden" name="pedido" id="pedidoInput">
+    <button type="submit">Confirmar Pedido</button>
+</form>
+<script>
+    const pedido = {};  // Aquí guardamos los ítems seleccionados
+    let total = 0;
+
+    function incrementQuantity(itemId) {
+        if (!pedido[itemId]) pedido[itemId] = { cantidad: 0, precio: parseFloat(document.getElementById(`item-price-${itemId}`).textContent) };
+        pedido[itemId].cantidad++;
+        document.getElementById(`quantity-${itemId}`).textContent = pedido[itemId].cantidad;
+        actualizarTotal();
+    }
+
+    function decrementQuantity(itemId) {
+        if (pedido[itemId] && pedido[itemId].cantidad > 0) {
+            pedido[itemId].cantidad--;
+            document.getElementById(`quantity-${itemId}`).textContent = pedido[itemId].cantidad;
+            actualizarTotal();
+        }
+    }
+
+    function actualizarTotal() {
+        total = Object.values(pedido).reduce((acc, item) => acc + item.cantidad * item.precio, 0);
+        document.getElementById('total').textContent = total.toFixed(2);
+        document.getElementById('pedidoInput').value = JSON.stringify(pedido);  // Enviamos el pedido como JSON
+    }
+</script>
 
 <a href="/">Volver a la página de búsqueda</a>
 </body>

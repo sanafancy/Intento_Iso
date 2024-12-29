@@ -2,6 +2,7 @@ package com.example.demo.dominio.entidades;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -10,7 +11,7 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private LocalDateTime fechaHora;
+    private Date fechaHora;
     @Column
     private String estado;
     @ManyToOne
@@ -51,11 +52,11 @@ public class Pedido {
         this.id = id;
     }
 
-    public LocalDateTime getFechaHora() {
+    public Date getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(LocalDateTime fechaHora) {
+    public void setFechaHora(Date fechaHora) {
         this.fechaHora = fechaHora;
     }
 

@@ -17,9 +17,10 @@ public class ItemMenu {
     @ManyToOne
     @JoinColumn(name = "carta_menu_id")
     private CartaMenu cartaMenu;
-
-    @ManyToMany(mappedBy = "items")
-    private List<Pedido> pedidos;
+    @ManyToOne
+    private Pedido pedido;
+    //@ManyToMany(mappedBy = "items")
+    //private List<Pedido> pedidos;
     //Constructor
     public ItemMenu(){}
     public ItemMenu(String nombre, double precio,String tipo, CartaMenu cartaMenu) {
@@ -68,12 +69,12 @@ public class ItemMenu {
         this.cartaMenu = cartaMenu;
     }
 
-    public List<Pedido> getPedidos() {
-        return pedidos;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public void setPedido(Pedido pedidos) {
+        this.pedido = pedidos;
     }
 
     @Override

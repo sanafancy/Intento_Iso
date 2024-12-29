@@ -1,10 +1,10 @@
 package com.example.demo.dominio.gestores;
 
 import com.example.demo.dominio.entidades.*;
-import com.example.demo.persistencia.CartaMenuDAO;
-import com.example.demo.persistencia.DireccionDAO;
-import com.example.demo.persistencia.ItemMenuDAO;
-import com.example.demo.persistencia.RestauranteDAO;
+import com.example.demo.persistencia.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Controller
 @RequestMapping("/restaurantes")
@@ -203,6 +201,49 @@ public class RestauranteController {
             itemMenuDAO.deleteById(id);
         }
         return "redirect:/restaurantes/carta";
+    }
+    @PostMapping("/pedido")
+    public String procesarPedido(@RequestParam Long restauranteId,
+                                 @RequestParam String pedido,  // JSON con ítems y cantidades
+                                 HttpSession session) throws JsonProcessingException {
+        Cliente cliente = (Cliente) session.getAttribute("cliente");
+        if (cliente == null) {
+            return "redirect:/clientes/login";
+        }
+
+        Optional<Restaurante> restauranteOpt = restauranteDAO.findById(restauranteId);
+        if (restauranteOpt.isPresent()) {
+            Restaurante restaurante = restauranteOpt.get();
+
+            // Crear un nuevo pedido
+            Pedido nuevoPedido = new Pedido();
+            nuevoPedido.setCliente(cliente);
+            nuevoPedido.setRestaurante(restaurante);
+            nuevoPedido.setFechaHora(new Date()); // Registrar la fecha del pedido
+            nuevoPedido.setEstado(String.valueOf(EstadoPedido.PEDIDO)); // Estado inicial
+            PedidoDAO.save(nuevoPedido);
+
+            // Procesar los ítems seleccionados
+            Map<Long, Integer> itemsPedido = new ObjectMapper().readValue(pedido, new TypeReference<Map<Long, Integer>>() {});
+            for (Map.Entry<Long, Integer> entry : itemsPedido.entrySet()) {
+                Long itemId = entry.getKey();
+                int cantidad = entry.getValue();
+
+                Optional<ItemMenu> itemOpt = itemMenuDAO.findById(itemId);
+                if (itemOpt.isPresent()) {
+                    // Asociar cada ítem del menú con el pedido
+                    ItemMenu item = itemOpt.get();
+                    for (int i = 0; i < cantidad; i++) {
+                        nuevoPedido.getItems().add(item);
+                    }
+                }
+            }
+            PedidoDAO.save(nuevoPedido); // Guardar el pedido con sus ítems seleccionados
+
+            return "redirect:/";  // Redirigir a la página de búsqueda
+        }
+
+        return "error";  // Mostrar una página de error si el restaurante no existe
     }
 
     // Direcciones
