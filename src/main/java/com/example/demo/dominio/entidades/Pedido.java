@@ -35,7 +35,7 @@ public class Pedido {
     private Direccion direccion;*/
 
     public Pedido(){}
-    public Pedido(LocalDateTime fechaHora, String estado, Cliente cliente, Restaurante restaurante, List<ItemMenu> items/*,Direccion direccion*/){
+    public Pedido(Date fechaHora, String estado, Cliente cliente, Restaurante restaurante, List<ItemMenu> items/*,Direccion direccion*/){
         this.fechaHora = fechaHora;
         this.estado = estado;
         this.cliente = cliente;

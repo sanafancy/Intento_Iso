@@ -26,7 +26,8 @@ public class RestauranteController {
 
     @Autowired
     private CartaMenuDAO cartaMenuDAO;
-
+    @Autowired
+    private PedidoDAO pedidoDAO;
     @Autowired
     private ItemMenuDAO itemMenuDAO;
     @Autowired
@@ -221,7 +222,7 @@ public class RestauranteController {
             nuevoPedido.setRestaurante(restaurante);
             nuevoPedido.setFechaHora(new Date()); // Registrar la fecha del pedido
             nuevoPedido.setEstado(String.valueOf(EstadoPedido.PEDIDO)); // Estado inicial
-            PedidoDAO.save(nuevoPedido);
+            pedidoDAO.save(nuevoPedido);
 
             // Procesar los ítems seleccionados
             Map<Long, Integer> itemsPedido = new ObjectMapper().readValue(pedido, new TypeReference<Map<Long, Integer>>() {});
@@ -238,7 +239,7 @@ public class RestauranteController {
                     }
                 }
             }
-            PedidoDAO.save(nuevoPedido); // Guardar el pedido con sus ítems seleccionados
+            pedidoDAO.save(nuevoPedido); // Guardar el pedido con sus ítems seleccionados
 
             return "redirect:/";  // Redirigir a la página de búsqueda
         }
