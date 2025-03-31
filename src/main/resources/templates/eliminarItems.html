@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Items</title>
+</head>
+<body>
+<h1>Eliminar Items</h1>
+<form action="/restaurantes/eliminarItems" method="post">
+  <ul>
+    <th:block th:each="carta : ${cartas}">
+      <li>
+        <h3 th:text="${carta.nombre}">Nombre del Menú</h3>
+        <ul>
+          <th:block th:each="item : ${itemsPorMenu[carta.id]}">
+            <li>
+              <input type="checkbox" name="itemIds" th:value="${item.id}">
+              <span th:text="${item.nombre}">Nombre del Item</span> -
+              <span th:text="${item.precio}">Precio</span> -
+              <span th:text="${item.tipo}">Tipo</span>
+            </li>
+          </th:block>
+        </ul>
+      </li>
+    </th:block>
+  </ul>
+  <button type="submit">Eliminar Items Seleccionados</button>
+</form>
+</body>
+</html>

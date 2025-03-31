@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Dirección</title>
+</head>
+<body>
+<h1>Eliminar Dirección</h1>
+<form action="/restaurantes/eliminarDireccion" method="post">
+  <label for="direccionId">Selecciona la dirección a eliminar:</label>
+  <select id="direccionId" name="direccionId">
+    <option th:each="direccion : ${direcciones}" th:value="${direccion.id}" th:text="${direccion.calle + ' ' + direccion.numero + ', ' + direccion.municipio}"></option>
+  </select>
+  <button type="submit">Eliminar</button>
+</form>
+</body>
+</html>

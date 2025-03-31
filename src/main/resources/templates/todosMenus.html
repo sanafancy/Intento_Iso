@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos los Menús</title>
+</head>
+<body>
+<h1>Todos los Menús</h1>
+<ul>
+    <th:block th:each="carta : ${cartas}">
+        <li>
+            <a th:href="@{'/restaurantes/anadirItem/' + ${carta.id}}" th:text="${carta.nombre}">Nombre del Menú</a>
+        </li>
+    </th:block>
+</ul>
+</body>
+</html>
